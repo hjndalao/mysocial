@@ -107,7 +107,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-login">
-                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5" target="iframe">
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&status=2" target="iframe">
                                 <i class="fa fa-circle-o"></i> 案件登记
                             </a>
                         </li>

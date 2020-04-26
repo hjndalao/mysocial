@@ -10,12 +10,13 @@ import java.util.Map;
 public interface RegistraionOfCasesService {
     //案件登记分页查询
     List<RegistrationOfCases> caseRegistrationPage(Integer typeStatus, Integer approvalStatus, Integer page, Integer pageNum);
-    //案件登记所有条数查询
-    Integer caseRegistrationCount(Integer typeStatus, Integer approvalStatus);
     //案件登记模糊查询
     List<RegistrationOfCases> caseRegistrationLike(String unitName,String nameOfRegistrant,String organizationalCode,Integer typeStatus,Integer approvalStatus,Integer page,Integer pageNUm);
     //修改状态(approval_status)案件提交功能
     int updateStatus(Integer approvalStatus,Integer typeStatus,Integer id);
+    //案件登记所有条数以及模糊查询返回条数
+    Integer caseRegistrationCount(String unitName,String nameOfRegistrant,String organizationalCode,Integer typeStatus,Integer approvalStatus);
+
 
     int deleteByPrimaryKey(Integer id);
 
@@ -28,8 +29,6 @@ public interface RegistraionOfCasesService {
     int updateByPrimaryKeySelective(RegistrationOfCases record);
 
     int updateByPrimaryKey(RegistrationOfCases record);
-
-    Integer pageByLikeSelectCount(String unitName, String nameOfRegistrant, String organizationalCode);
 
     List<RegistrationOfCases> selectAllDaily(Integer page, Integer pageNUm);
 

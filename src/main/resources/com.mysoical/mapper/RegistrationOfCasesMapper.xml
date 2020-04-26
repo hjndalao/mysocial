@@ -61,7 +61,21 @@
     <!--案件登记所有条数查询-->
     <!--Integer caseRegistrationCount(@Param("typeStatus")Integer typeStatus,@Param("approvalStatus")Integer approvalStatus);-->
     <select id="caseRegistrationCount" resultType="Integer">
-        select count(*) from  registration_of_cases where type_status=#{typeStatus} and approval_status=#{approvalStatus}
+        select
+        count(*)
+        from registration_of_cases
+        <where>
+            <if test="unitName!=null">
+                unit_name like #{unitName}
+            </if>
+            <if test="nameOfRegistrant!=null">
+                and name_of_registrant like #{nameOfRegistrant}
+            </if>
+            <if test="organizationalCode!=null">
+                and organizational_code like #{organizationalCode}
+            </if>
+            and type_status=#{typeStatus} and approval_status=#{approvalStatus}
+        </where>
     </select>
     <!--案件登记模糊查询-->
     <select id="caseRegistrationLike" resultMap="BaseResultMap">
@@ -105,24 +119,6 @@
             and type_status=2 and approval_status=0
         </where>
         limit ${(page-1)*pageNum},#{pageNum}
-    </select>
-
-    <select id="pageByLikeSelectCount" resultType="Integer">
-        select
-        count(*)
-        from registration_of_cases
-        <where>
-            <if test="unitName!=null">
-                unit_name like #{unitName}
-            </if>
-            <if test="nameOfRegistrant!=null">
-                and name_of_registrant like #{nameOfRegistrant}
-            </if>
-            <if test="organizationalCode!=null">
-                and organizational_code like #{organizationalCode}
-            </if>
-            and type_status=1 and approval_status=4
-        </where>
     </select>
 
     <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->

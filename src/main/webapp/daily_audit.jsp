@@ -37,20 +37,24 @@
                 "unitName": name,
                 "organizationalCode": organizational_code,
                 "nameOfRegistrant": name_of_registrant,
-                "status":1
+                "status": 1,
+                "typeStatus": 2,
+                "approvalStatus": 0
             }
-
-            $.ajax({
-                url: "${path}/registraionOfCases/selectLike",
-                data: registrationOfCases,
-                type: "post",
-                success: function () {
-                    console.log("运行完成");
-                    location.reload();
-                }
-            });
+            if (name === "" && organizational_code === "" && name_of_registrant === "") {
+                alert("请输入查询信息");
+            }else {
+                $.ajax({
+                    url: "${path}/registraionOfCases/caseRegistrationLike",
+                    data: registrationOfCases,
+                    type: "post",
+                    success: function () {
+                        console.log("运行完成");
+                        location.reload();
+                    }
+                });
+            }
         }
-
     </script>
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="shebao" ng-controller="specialauditController">
@@ -70,10 +74,12 @@
                     <td><input class="form-control" ng-model="searchEntity.unitName" id="unitName1"></td>
                     <td style="text-align: right"><span style="white-space: nowrap;display: inline-block">组织机构代码：</span>
                     </td>
-                    <td><input class="form-control" ng-model="searchEntity.organizationalCode" id="organizationalCode1"></td>
+                    <td><input class="form-control" ng-model="searchEntity.organizationalCode" id="organizationalCode1">
+                    </td>
                     <td style="text-align: right"><span style="white-space: nowrap;display: inline-block">接收人：</span>
                     </td>
-                    <td><input class="form-control" ng-model="searchEntity.nameOfRegistrant" id="nameOfRegistrant1"></td>
+                    <td><input class="form-control" ng-model="searchEntity.nameOfRegistrant" id="nameOfRegistrant1">
+                    </td>
                 </tr>
             </table>
         </div>
@@ -115,60 +121,68 @@
                 <th class="sorting">操作</th>
             </tr>
             </thead>
-            <c:forEach items="${datas}" var="ds">
-            <tbody>
-            <tr>
-                <td>${ds.unitName}</td>
-                <td>${ds.organizationalCode}</td>
-                <td>${ds.nameOfRegistrant}</td>
-                <td>${ds.registrationTime}</td>
-                <td>
-                    <c:if test="${ds.accountCharacter==0}">
-                        农业户口
-                    </c:if>
-                    <c:if test="${ds.accountCharacter==1}">
-                        非农业户口
-                    </c:if>
-                </td>
-                <td>${ds.nameOfTheFiler}</td>
-                <td>${ds.phone}</td>
-                <td>${ds.complaintContents}</td>
-                <td>
-                    <button type="button" ng-click="findOne(pojo.id)" class="btn bg-olive btn-xs" data-toggle="modal"
-                            data-target="#editModal">修改
-                    </button>
-                    <button type="button" ng-click="deleteOne(pojo.id)" class="btn bg-olive btn-xs">
-                        删除
-                    </button>
-                    <button type="button" ng-click="findOne(pojo.id)" class="btn bg-olive btn-xs" data-toggle="modal"
-                            data-target="#editModal1">上传材料
-                    </button>
-                </td>
-            </tr>
-            </tbody>
+            <c:forEach items="${data}" var="ds">
+                <tbody>
+                <tr>
+                    <td>${ds.unitName}</td>
+                    <td>${ds.organizationalCode}</td>
+                    <td>${ds.nameOfRegistrant}</td>
+                    <td>${ds.registrationTime}</td>
+                    <td>
+                        <c:if test="${ds.accountCharacter==0}">
+                            农业户口
+                        </c:if>
+                        <c:if test="${ds.accountCharacter==1}">
+                            非农业户口
+                        </c:if>
+                    </td>
+                    <td>${ds.nameOfTheFiler}</td>
+                    <td>${ds.phone}</td>
+                    <td>${ds.complaintContents}</td>
+                    <td>
+                        <button type="button" ng-click="findOne(pojo.id)" class="btn bg-olive btn-xs"
+                                data-toggle="modal"
+                                data-target="#editModal">修改
+                        </button>
+                        <button type="button" ng-click="deleteOne(pojo.id)" class="btn bg-olive btn-xs">
+                            删除
+                        </button>
+                        <button type="button" ng-click="findOne(pojo.id)" class="btn bg-olive btn-xs"
+                                data-toggle="modal"
+                                data-target="#editModal1">上传材料
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
             </c:forEach>
         </table>
         <!--数据列表/-->
         <!--分页工具条展示-->
         <%--<tm-pagination conf="paginationConf"></tm-pagination>--%>
-        <c:if test="${map.num==null}">
-            <c:if test="${map.pages>1}">
-                <a href="${path}/registraionOfCases/selectAllDaily?page=${map.pages-1}">上一页</a>
+        <c:if test="${map.nums==null}">
+            <c:if test="${map.page>1}">
+                <a href="${path}/registraionOfCases/caseRegistrationPage?page=${map.page-1}&status=1&typeStatus=2&approvalStatus=0">上一页</a>
             </c:if>
-            第 ${map.pages} 页&nbsp;&nbsp;&nbsp;共 ${map.nums} 页
-            <c:if test="${map.pages<map.nums}">
-                <a href="${path}/registraionOfCases/selectAllDaily?page=${map.pages+1}">下一页</a>
+            第 ${map.page} 页&nbsp;&nbsp;&nbsp;共 ${map.num} 页
+            <c:if test="${map.page<map.num}">
+                <a href="${path}/registraionOfCases/caseRegistrationPage?page=${map.page+1}&status=1&typeStatus=2&approvalStatus=0">下一页</a>
             </c:if>
         </c:if>
 
         <c:if test="${map.num==null && map.page==null}">
             <c:if test="${map.pages>1}">
-                <a href="${path}/registraionOfCases/selectLike?page=${map.pages-1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>">上一页</a>
+                <a href="${path}/registraionOfCases/selectLike?page=${map.pages-1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=1">上一页</a>
             </c:if>
             第 ${map.pages} 页&nbsp;&nbsp;&nbsp;共 ${map.nums} 页
             <c:if test="${map.pages<map.nums}">
-                <a href="${path}/registraionOfCases/selectLike?page=${map.pages+1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>">下一页</a>
+                <a href="${path}/registraionOfCases/selectLike?page=${map.pages+1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=1">下一页</a>
             </c:if>
+        </c:if>
+        <c:if test="${map.counts==null}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共 ${map.count} 条数据
+        </c:if>
+        <c:if test="${map.count==null}">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共 ${map.counts} 条数据
         </c:if>
     </div>
     <!-- 数据表格 /-->

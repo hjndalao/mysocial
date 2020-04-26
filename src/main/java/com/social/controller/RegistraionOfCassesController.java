@@ -39,6 +39,7 @@ public class RegistraionOfCassesController {
         map.put("page", page);
         map.put("pageNum", pageNum);
         map.put("remaining_pages", remaining_pages);
+        map.put("count", count);
         return map;
     }
 
@@ -60,31 +61,42 @@ public class RegistraionOfCassesController {
     */
     //案件登记分页查询
     @RequestMapping("caseRegistrationPage")
-    public String caseRegistrationPage(Integer typeStatus, Integer approvalStatus, Integer page, Integer pageNum, HttpSession session) {
+    public String caseRegistrationPage(Integer typeStatus, Integer approvalStatus, Integer page, Integer pageNum, HttpSession session, Integer status) {
         //状态方法
-        Map<String, Integer> status = status(typeStatus, approvalStatus);
+        Map<String, Integer> mapStatus = status(typeStatus, approvalStatus);
         //获取状态
-        Integer status1 = status.get("typeStatus");
-        Integer status2 = status.get("approvalStatus");
+        Integer status1 = mapStatus.get("typeStatus");
+        Integer status2 = mapStatus.get("approvalStatus");
         //所有条数
-        Integer count = registraionOfCasesService.caseRegistrationCount(status1, status2);
+        Integer count = registraionOfCasesService.caseRegistrationCount(null, null, null, status1, status2);
         //分页方法
         Map<String, Integer> util = pageUtil(pageNum, page, count);
         Integer pages = util.get("page");
         Integer num = util.get("pageNum");
         Integer remaining_pages = util.get("remaining_pages");
+        Integer counts = util.get("count");
         //分页数据
         List<RegistrationOfCases> registrationOfCases = registraionOfCasesService.caseRegistrationPage(status1, status2, pages, num);
         Map<String, Object> map = new HashMap<String, Object>();
         //存入分页数据
         map.put("num", remaining_pages);
         map.put("page", pages);
+        map.put("count", counts);
         //存入map集合
         session.setAttribute("map", map);
         //存入分页后的数据
         session.setAttribute("data", registrationOfCases);
         //跳转案件登记页面
-        return "redirect:/registrationOfCases.jsp";
+        //根据状态返回页面
+        if (status == 1) {
+            System.out.println("运行1");
+            return "redirect:/daily_audit.jsp";
+        } else if (status == 2) {
+            System.out.println("运行2");
+            return "redirect:/registrationOfCases.jsp";
+        } else {
+            return "";
+        }
     }
 
     /*
@@ -94,24 +106,29 @@ public class RegistraionOfCassesController {
     //案件登记模糊查询
     @RequestMapping("caseRegistrationLike")
     public String caseRegistrationLike(String unitName, String organizationalCode, String nameOfRegistrant, Integer page, Integer pageNum, HttpSession session, Integer status, Integer typeStatus, Integer approvalStatus) {
+        System.out.println("页面跳转状态:" + status);
         //状态方法
         Map<String, Integer> likeStatus = status(typeStatus, approvalStatus);
         //获取状态
         Integer status1 = likeStatus.get("typeStatus");
         Integer status2 = likeStatus.get("approvalStatus");
         //所有条数
-        Integer count = registraionOfCasesService.pageByLikeSelectCount("%" + unitName + "%", "%" + nameOfRegistrant + "%", "%" + organizationalCode + "%");
+        Integer count = registraionOfCasesService.caseRegistrationCount("%" + unitName + "%", "%" + nameOfRegistrant + "%", "%" + organizationalCode + "%", status1, status2);
+        System.out.println(count);
         //分页方法
         Map<String, Integer> util = pageUtil(pageNum, page, count);
         Integer pages = util.get("page");
         Integer num = util.get("pageNum");
         Integer remaining_pages = util.get("remaining_pages");
+        Integer counts = util.get("count");
+        System.out.println(counts);
         //分页数据
         List<RegistrationOfCases> registrationOfCasess = registraionOfCasesService.caseRegistrationLike("%" + unitName + "%", "%" + nameOfRegistrant + "%", "%" + organizationalCode + "%", status1, status2, pages, num);
         //模糊查询
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("nums", remaining_pages);
         map.put("pages", pages);
+        map.put("counts", counts);
         //存入map集合
         session.setAttribute("map", map);
         //存入分页数据
@@ -122,10 +139,8 @@ public class RegistraionOfCassesController {
         session.setAttribute("nameOfRegistrant", nameOfRegistrant);
         //根据状态返回页面
         if (status == 1) {
-            System.out.println("运行1");
             return "redirect:/daily_audit.jsp";
         } else if (status == 2) {
-            System.out.println("运行2");
             return "redirect:/registrationOfCases.jsp";
         } else {
             return "";
@@ -146,13 +161,17 @@ public class RegistraionOfCassesController {
     public String insert(RegistrationOfCases registrationOfCases) {
         //日期格式转换
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String format = sdf.format(date);
+        SimpleDateFormat yyyy_mm_dd = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat mm = new SimpleDateFormat("MM");
+        String yyyy = yyyy_mm_dd.format(date);
+        String mms = mm.format(date);
         //设置时间
-        registrationOfCases.setRegistrationTime(format);
+        registrationOfCases.setRegistrationTime(yyyy);
         //设置状态
         registrationOfCases.setTypeStatus(1);
         registrationOfCases.setApprovalStatus(4);
+        registrationOfCases.setFilingMonth(Integer.valueOf(mms));
+        //插入操作
         int insert = registraionOfCasesService.insert(registrationOfCases);
         return JSON.toJSONString(insert);
     }

@@ -70,12 +70,6 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
     }
 
     @Override
-    public Integer pageByLikeSelectCount(String unitName, String nameOfRegistrant, String organizationalCode) {
-        Integer count = registrationOfCasesMapper.pageByLikeSelectCount(unitName, nameOfRegistrant, organizationalCode);
-        return count;
-    }
-
-    @Override
     public List<RegistrationOfCases> selectAllDaily(Integer page, Integer pageNUm) {
         List<RegistrationOfCases> registrationOfCases = registrationOfCasesMapper.selectAllDaily(page, pageNUm);
         return registrationOfCases;
@@ -86,11 +80,11 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
         int status = registrationOfCasesMapper.updateStatus(approvalStatus, typeStatus, id);
         return status;
     }
-
+    //案件登记所有条数以及模糊查询返回条数
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
-    public Integer caseRegistrationCount(Integer typeStatus, Integer approvalStatus) {
-        Integer count = registrationOfCasesMapper.caseRegistrationCount(typeStatus, approvalStatus);
+    public Integer caseRegistrationCount(String unitName,String nameOfRegistrant,String organizationalCode,Integer typeStatus,Integer approvalStatus){
+        Integer count = registrationOfCasesMapper.caseRegistrationCount(unitName, nameOfRegistrant, organizationalCode, typeStatus, approvalStatus);
         return count;
     }
 
