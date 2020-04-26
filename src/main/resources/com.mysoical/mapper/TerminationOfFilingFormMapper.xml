@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.social.dao.TerminationOfFilingFormMapper" >
+  <resultMap id="BaseResultMap" type="com.social.pojo.TerminationOfFilingForm" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="registration_of_cases_id" property="registrationOfCasesId" jdbcType="INTEGER" />
+    <result column="cause_of_action" property="causeOfAction" jdbcType="VARCHAR" />
+    <result column="reasons_for_termination" property="reasonsForTermination" jdbcType="VARCHAR" />
+    <result column="investigator_views" property="investigatorViews" jdbcType="VARCHAR" />
+    <result column="responsible_opinions" property="responsibleOpinions" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, registration_of_cases_id, cause_of_action, reasons_for_termination, investigator_views, 
+    responsible_opinions
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from termination_of_filing_form
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from termination_of_filing_form
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.social.pojo.TerminationOfFilingForm" >
+    insert into termination_of_filing_form (id, registration_of_cases_id, cause_of_action, 
+      reasons_for_termination, investigator_views, 
+      responsible_opinions)
+    values (#{id,jdbcType=INTEGER}, #{registrationOfCasesId,jdbcType=INTEGER}, #{causeOfAction,jdbcType=VARCHAR}, 
+      #{reasonsForTermination,jdbcType=VARCHAR}, #{investigatorViews,jdbcType=VARCHAR}, 
+      #{responsibleOpinions,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.social.pojo.TerminationOfFilingForm" >
+    insert into termination_of_filing_form
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="registrationOfCasesId != null" >
+        registration_of_cases_id,
+      </if>
+      <if test="causeOfAction != null" >
+        cause_of_action,
+      </if>
+      <if test="reasonsForTermination != null" >
+        reasons_for_termination,
+      </if>
+      <if test="investigatorViews != null" >
+        investigator_views,
+      </if>
+      <if test="responsibleOpinions != null" >
+        responsible_opinions,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="registrationOfCasesId != null" >
+        #{registrationOfCasesId,jdbcType=INTEGER},
+      </if>
+      <if test="causeOfAction != null" >
+        #{causeOfAction,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonsForTermination != null" >
+        #{reasonsForTermination,jdbcType=VARCHAR},
+      </if>
+      <if test="investigatorViews != null" >
+        #{investigatorViews,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleOpinions != null" >
+        #{responsibleOpinions,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.social.pojo.TerminationOfFilingForm" >
+    update termination_of_filing_form
+    <set >
+      <if test="registrationOfCasesId != null" >
+        registration_of_cases_id = #{registrationOfCasesId,jdbcType=INTEGER},
+      </if>
+      <if test="causeOfAction != null" >
+        cause_of_action = #{causeOfAction,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonsForTermination != null" >
+        reasons_for_termination = #{reasonsForTermination,jdbcType=VARCHAR},
+      </if>
+      <if test="investigatorViews != null" >
+        investigator_views = #{investigatorViews,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleOpinions != null" >
+        responsible_opinions = #{responsibleOpinions,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.social.pojo.TerminationOfFilingForm" >
+    update termination_of_filing_form
+    set registration_of_cases_id = #{registrationOfCasesId,jdbcType=INTEGER},
+      cause_of_action = #{causeOfAction,jdbcType=VARCHAR},
+      reasons_for_termination = #{reasonsForTermination,jdbcType=VARCHAR},
+      investigator_views = #{investigatorViews,jdbcType=VARCHAR},
+      responsible_opinions = #{responsibleOpinions,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
