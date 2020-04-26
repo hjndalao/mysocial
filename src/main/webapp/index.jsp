@@ -112,7 +112,7 @@
                             </a>
                         </li>
                         <li id="admin-login1">
-                            <a href="${pageContext.request.contextPath}/registraionOfCases/selectAllDaily?page=1&pageNum=5" target="iframe">
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=2&approvalStatus=0&status=1" target="iframe">
                                 <i class="fa fa-circle-o"></i> 日常审计
                             </a>
                         </li>

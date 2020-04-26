@@ -14,7 +14,8 @@ public interface RegistraionOfCasesService {
     Integer caseRegistrationCount(Integer typeStatus, Integer approvalStatus);
     //案件登记模糊查询
     List<RegistrationOfCases> caseRegistrationLike(String unitName,String nameOfRegistrant,String organizationalCode,Integer typeStatus,Integer approvalStatus,Integer page,Integer pageNUm);
-
+    //修改状态(approval_status)案件提交功能
+    int updateStatus(Integer approvalStatus,Integer typeStatus,Integer id);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -31,8 +32,6 @@ public interface RegistraionOfCasesService {
     Integer pageByLikeSelectCount(String unitName, String nameOfRegistrant, String organizationalCode);
 
     List<RegistrationOfCases> selectAllDaily(Integer page, Integer pageNUm);
-
-    void updateStatus(Integer id);
 
     Integer selectAllDailyCount();
 

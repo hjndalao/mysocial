@@ -190,7 +190,7 @@
                 console.log(id, status);
                 $.ajax({
                     url: "${path}/registraionOfCases/updateStatus",
-                    data: "id=" + id,
+                    data: "id=" + id + "&approvalStatus=0&typeStatus=2",
                     type: "post",
                     dataType: "text",
                     success: function () {

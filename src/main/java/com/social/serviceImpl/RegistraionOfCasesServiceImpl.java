@@ -64,8 +64,8 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
-    public List<RegistrationOfCases> caseRegistrationLike(String unitName,String nameOfRegistrant,String organizationalCode,Integer typeStatus,Integer approvalStatus,Integer page,Integer pageNUm){
-        List<RegistrationOfCases> registrationOfCasess = registrationOfCasesMapper.caseRegistrationLike(unitName, nameOfRegistrant, organizationalCode,typeStatus,approvalStatus, page, pageNUm);
+    public List<RegistrationOfCases> caseRegistrationLike(String unitName, String nameOfRegistrant, String organizationalCode, Integer typeStatus, Integer approvalStatus, Integer page, Integer pageNUm) {
+        List<RegistrationOfCases> registrationOfCasess = registrationOfCasesMapper.caseRegistrationLike(unitName, nameOfRegistrant, organizationalCode, typeStatus, approvalStatus, page, pageNUm);
         return registrationOfCasess;
     }
 
@@ -82,14 +82,15 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
     }
 
     @Override
-    public void updateStatus(Integer id) {
-        registrationOfCasesMapper.updateStatus(id);
+    public int updateStatus(Integer approvalStatus, Integer typeStatus, Integer id) {
+        int status = registrationOfCasesMapper.updateStatus(approvalStatus, typeStatus, id);
+        return status;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public Integer caseRegistrationCount(Integer typeStatus, Integer approvalStatus) {
-        Integer count = registrationOfCasesMapper.caseRegistrationCount(typeStatus,approvalStatus);
+        Integer count = registrationOfCasesMapper.caseRegistrationCount(typeStatus, approvalStatus);
         return count;
     }
 

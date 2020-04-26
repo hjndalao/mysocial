@@ -140,31 +140,6 @@ public class RegistraionOfCassesController {
         return JSON.toJSONString(registrationOfCases);
     }
 
-    @RequestMapping("selectAllDaily")
-    public String selectAllDaily(Integer page, Integer pageNum, HttpSession session) {
-        if (page == null) page = 1;
-        if (pageNum == null) pageNum = 5;
-        //所有条数
-        Integer count = registraionOfCasesService.selectAllDailyCount();
-        System.out.println(count);
-        //分页数据
-        List<RegistrationOfCases> registrationOfCases = registraionOfCasesService.selectAllDaily(page, pageNum);
-        System.out.println("数据:" + registrationOfCases);
-        //剩余页数
-        int num = 0;
-        if (count % pageNum == 0) {
-            num = count / pageNum;
-        } else {
-            num = count / pageNum + 1;
-        }
-        //模糊查询
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("nums", num);
-        map.put("pages", page);
-        session.setAttribute("map", map);
-        session.setAttribute("datas", registrationOfCases);
-        return "redirect:/daily_audit.jsp";
-    }
     //登记案件添加
     @RequestMapping("insert")
     @ResponseBody
@@ -181,6 +156,7 @@ public class RegistraionOfCassesController {
         int insert = registraionOfCasesService.insert(registrationOfCases);
         return JSON.toJSONString(insert);
     }
+
     //案件登记修改（模态框）
     @RequestMapping("update")
     @ResponseBody
@@ -190,17 +166,19 @@ public class RegistraionOfCassesController {
         return JSON.toJSONString(status);
     }
 
+    //案件登记修改状态
     @RequestMapping("updateStatus")
     @ResponseBody
-    public String updateStatus(Integer id) {
-        registraionOfCasesService.updateStatus(id);
-        return JSON.toJSONString(1);
+    public String updateStatus(Integer approvalStatus, Integer typeStatus, Integer id) {
+        int status = registraionOfCasesService.updateStatus(approvalStatus, typeStatus, id);
+        return JSON.toJSONString(status);
     }
 
+    //案件登记删除
     @RequestMapping("delete")
     @ResponseBody
     public String delete(Integer id) {
-        int i = registraionOfCasesService.deleteByPrimaryKey(id);
-        return JSON.toJSONString(i);
+        int status = registraionOfCasesService.deleteByPrimaryKey(id);
+        return JSON.toJSONString(status);
     }
 }

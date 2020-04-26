@@ -46,15 +46,17 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <!--
-        approval_status 审批状态 4.立案未提交
-        type_status 类型状态 1.立案登记
+    approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);
+    type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)
     -->
+    <!--日常审计分页查询-->
     <!--案件登记分页查询-->
     <!--List<RegistrationOfCases> caseRegistrationPage(@Param("typeStatus")Integer typeStatus,@Param("approvalStatus")Integer approvalStatus,@Param("page") Integer page, @Param("pageNum") Integer pageNum);-->
     <select id="caseRegistrationPage" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from registration_of_cases where type_status=#{typeStatus} and approval_status=#{approvalStatus} limit ${(page-1)*pageNum},#{pageNum}
+        from registration_of_cases where type_status=#{typeStatus} and approval_status=#{approvalStatus}
+        limit ${(page-1)*pageNum},#{pageNum}
     </select>
     <!--案件登记所有条数查询-->
     <!--Integer caseRegistrationCount(@Param("typeStatus")Integer typeStatus,@Param("approvalStatus")Integer approvalStatus);-->
@@ -62,7 +64,6 @@
         select count(*) from  registration_of_cases where type_status=#{typeStatus} and approval_status=#{approvalStatus}
     </select>
     <!--案件登记模糊查询-->
-
     <select id="caseRegistrationLike" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -81,7 +82,12 @@
         </where>
         limit ${(page-1)*pageNum},#{pageNum}
     </select>
-
+    <!--void updateStatus(@Param("approvalStatus")Integer approvalStatus,@Param("typeStatus")Integer typeStatus,@Param("id")Integer id);-->
+    <!--修改状态(approval_status,type_status)案件提交功能-->
+    <update id="updateStatus" parameterType="java.lang.Integer">
+        update registration_of_cases set approval_status=#{approvalStatus},type_status=#{typeStatus}
+        where id=#{id}
+    </update>
     <select id="DailyByLikeSelect" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -100,8 +106,7 @@
         </where>
         limit ${(page-1)*pageNum},#{pageNum}
     </select>
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
+
     <select id="pageByLikeSelectCount" resultType="Integer">
         select
         count(*)
@@ -120,40 +125,25 @@
         </where>
     </select>
 
-
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
-    <select id="selectAllDaily" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from registration_of_cases where type_status=2 and approval_status=0 limit ${(page-1)*pageNum},#{pageNum}
-    </select>
     <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
     <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
     <select id="selectAllDailyCount" resultType="Integer">
         select count(*) from  registration_of_cases where type_status=2 and approval_status=0
     </select>
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
+
     <!-- 做过修改 修改了接收参数 -->
     <select id="selectBypage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Page_Column_list"/>
         from registration_of_cases limit 0,10
     </select>
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
-    <update id="updateStatus" parameterType="java.lang.Integer">
-        update registration_of_cases set approval_status=0
-        where id=#{id}
-    </update>
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
+
+
+
     <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         update registration_of_cases set type_status=0 where id = #{id,jdbcType=INTEGER}
     </update>
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
+
     <insert id="insert" parameterType="com.social.pojo.RegistrationOfCases">
     insert into registration_of_cases (id, unit_name, organizational_code, 
       name_of_the_complainant, id_card, phone, 
@@ -172,8 +162,7 @@
       #{auditHouseholds,jdbcType=INTEGER}, #{amountPaid,jdbcType=REAL}, #{typeStatus,jdbcType=INTEGER}, 
       #{maxtime,jdbcType=INTEGER})
   </insert>
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
+
     <insert id="insertSelective" parameterType="com.social.pojo.RegistrationOfCases">
         insert into registration_of_cases
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -313,8 +302,7 @@
             </if>
         </trim>
     </insert>
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
+
     <update id="updateByPrimaryKeySelective" parameterType="com.social.pojo.RegistrationOfCases">
         update registration_of_cases
         <set>
@@ -384,8 +372,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
+
     <update id="updateByPrimaryKey" parameterType="com.social.pojo.RegistrationOfCases">
     update registration_of_cases
     set unit_name = #{unitName,jdbcType=VARCHAR},
@@ -412,8 +399,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-    <!--approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);-->
-    <!--type_status 类型状态 (1、立案登记 2、日常审批 3、专项审批)-->
     <!-- 按照条件查询 -->
     <select id="selectRegistrationOfCases" resultMap="BaseResultMap">
         select
@@ -432,5 +417,4 @@
             name_of_the_complainant = #{nameOfTheComplainant,jdbcType=VARCHAR},
         </if>
     </select>
-
 </mapper>
