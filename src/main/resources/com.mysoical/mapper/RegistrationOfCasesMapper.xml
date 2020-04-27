@@ -134,7 +134,9 @@
         from registration_of_cases limit 0,10
     </select>
 
-
+    <update id="uploadFile">
+        update registration_of_cases set file_name=#{fileName} where id=#{id}
+    </update>
 
     <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         update registration_of_cases set type_status=0 where id = #{id,jdbcType=INTEGER}

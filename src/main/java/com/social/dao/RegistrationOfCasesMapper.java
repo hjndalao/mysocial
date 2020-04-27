@@ -17,24 +17,20 @@ public interface RegistrationOfCasesMapper {
     List<RegistrationOfCases> selectAllDaily(@Param("page") Integer page, @Param("pageNum") Integer pageNUm);
     //修改状态(approval_status)案件提交功能
     int updateStatus(@Param("approvalStatus")Integer approvalStatus,@Param("typeStatus")Integer typeStatus,@Param("id")Integer id);
-
-    int deleteByPrimaryKey(Integer id);
-
+    //根据主键查询
+    RegistrationOfCases selectByPrimaryKey(Integer id);
+    //添加方法
     int insert(RegistrationOfCases record);
+    //动态根据id修改
+    int updateByPrimaryKeySelective(RegistrationOfCases record);
+    //根据主键删除
+    int deleteByPrimaryKey(Integer id);
 
     int insertSelective(RegistrationOfCases record);
 
-    RegistrationOfCases selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(RegistrationOfCases record);
-
     int updateByPrimaryKey(RegistrationOfCases record);
 
-
-
     Integer selectAllDailyCount();
-
-
 
     RegistrationOfCases selectRegistrationOfCases(String unitName, String organizationalCode, String nameOfTheComplainant);
 

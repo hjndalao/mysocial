@@ -17,7 +17,6 @@ public interface RegistraionOfCasesService {
     //案件登记所有条数以及模糊查询返回条数
     Integer caseRegistrationCount(String unitName,String nameOfRegistrant,String organizationalCode,Integer typeStatus,Integer approvalStatus);
 
-
     int deleteByPrimaryKey(Integer id);
 
     int insert(RegistrationOfCases record);

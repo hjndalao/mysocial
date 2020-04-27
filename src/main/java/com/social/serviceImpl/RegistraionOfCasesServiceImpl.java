@@ -14,7 +14,6 @@ import java.util.Map;
 @Service
 @Transactional
 public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService {
-
     @Autowired
     private RegistrationOfCasesMapper registrationOfCasesMapper;
 
@@ -69,6 +68,7 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
         return registrationOfCasess;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public List<RegistrationOfCases> selectAllDaily(Integer page, Integer pageNUm) {
         List<RegistrationOfCases> registrationOfCases = registrationOfCasesMapper.selectAllDaily(page, pageNUm);
@@ -88,6 +88,7 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
         return count;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public Integer selectAllDailyCount() {
         Integer count = registrationOfCasesMapper.selectAllDailyCount();

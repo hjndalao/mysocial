@@ -95,7 +95,6 @@
                 "nameOfTheFiler": ame_of_the_filer,
                 "filingMonth": filing_month,
                 "complaintContents": complaint_contents,
-                "status": 2
             }
 
             $.ajax({

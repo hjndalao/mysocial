@@ -96,7 +96,7 @@
             </div>
             <ul class="sidebar-menu">
                 <li class="header">菜单</li>
-                <li id="admin-index"><a href="/"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                <li id="admin-index"><a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&status=2"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
                 <li class="treeview"  ng-if="true"><!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
                     <a href="111">
                         <i class="fa fa-folder"></i>
@@ -117,12 +117,12 @@
                             </a>
                         </li>
                         <li id="admin-login2">
-                            <a href="special_audit.jsp" target="iframe">
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=3&approvalStatus=0&status=3" target="iframe">
                                 <i class="fa fa-circle-o"></i> 专项审计
                             </a>
                         </li>
                         <li id="admin-login3">
-                            <a href="approval.jsp" target="iframe">
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=3&approvalStatus=0&status=4" target="iframe">
                                 <i class="fa fa-circle-o"></i> 立案审批
                             </a>
                         </li>

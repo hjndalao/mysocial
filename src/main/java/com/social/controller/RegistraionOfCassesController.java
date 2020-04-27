@@ -2,13 +2,16 @@ package com.social.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.social.pojo.RegistrationOfCases;
+import com.social.pojo.SpecialAuditMaterials;
 import com.social.service.RegistraionOfCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,7 +58,25 @@ public class RegistraionOfCassesController {
         return map;
     }
 
-    /*
+    //根据状态返回页面
+    public String statusYe(Integer status){
+        if (status == 1) {
+            System.out.println("运行1");
+            return "redirect:/daily_audit.jsp";
+        } else if (status == 2) {
+            System.out.println("运行2");
+            return "redirect:/registrationOfCases.jsp";
+        } else if (status == 3) {
+            System.out.println("运行3");
+            return "redirect:/special_audit.jsp";
+        } else if(status == 4){
+            System.out.println("运行4");
+            return "redirect:/approval.jsp";
+        }else {
+            return "";
+        }
+    }
+   /*
         typeStatus 类型状态 (1、立案登记 2、日常审批 3、专项审批)
         approvalStatus 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);
     */
@@ -88,15 +109,7 @@ public class RegistraionOfCassesController {
         session.setAttribute("data", registrationOfCases);
         //跳转案件登记页面
         //根据状态返回页面
-        if (status == 1) {
-            System.out.println("运行1");
-            return "redirect:/daily_audit.jsp";
-        } else if (status == 2) {
-            System.out.println("运行2");
-            return "redirect:/registrationOfCases.jsp";
-        } else {
-            return "";
-        }
+        return statusYe(status);
     }
 
     /*
@@ -138,13 +151,7 @@ public class RegistraionOfCassesController {
         session.setAttribute("organizationalCode", organizationalCode);
         session.setAttribute("nameOfRegistrant", nameOfRegistrant);
         //根据状态返回页面
-        if (status == 1) {
-            return "redirect:/daily_audit.jsp";
-        } else if (status == 2) {
-            return "redirect:/registrationOfCases.jsp";
-        } else {
-            return "";
-        }
+        return statusYe(status);
     }
 
     //案件登记主键查询
@@ -168,8 +175,8 @@ public class RegistraionOfCassesController {
         //设置时间
         registrationOfCases.setRegistrationTime(yyyy);
         //设置状态
-        registrationOfCases.setTypeStatus(1);
-        registrationOfCases.setApprovalStatus(4);
+        if (registrationOfCases.getTypeStatus() == null) registrationOfCases.setTypeStatus(1);
+        if (registrationOfCases.getApprovalStatus() == null) registrationOfCases.setApprovalStatus(4);
         registrationOfCases.setFilingMonth(Integer.valueOf(mms));
         //插入操作
         int insert = registraionOfCasesService.insert(registrationOfCases);
@@ -180,6 +187,7 @@ public class RegistraionOfCassesController {
     @RequestMapping("update")
     @ResponseBody
     public String update(RegistrationOfCases registrationOfCases) {
+        System.out.println("修改:" + registrationOfCases);
         //修改操作 动态sql
         int status = registraionOfCasesService.updateByPrimaryKeySelective(registrationOfCases);
         return JSON.toJSONString(status);
@@ -200,4 +208,6 @@ public class RegistraionOfCassesController {
         int status = registraionOfCasesService.deleteByPrimaryKey(id);
         return JSON.toJSONString(status);
     }
+
+
 }

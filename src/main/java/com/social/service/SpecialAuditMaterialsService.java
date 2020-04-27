@@ -1,9 +1,8 @@
-package com.social.dao;
+package com.social.service;
 
 import com.social.pojo.SpecialAuditMaterials;
-import org.apache.ibatis.annotations.Param;
 
-public interface SpecialAuditMaterialsMapper {
+public interface SpecialAuditMaterialsService {
 
     int deleteByPrimaryKey(Integer id);
 

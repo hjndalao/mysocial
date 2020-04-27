@@ -43,7 +43,7 @@
             }
             if (name === "" && organizational_code === "" && name_of_registrant === "") {
                 alert("请输入查询信息");
-            }else {
+            } else {
                 $.ajax({
                     url: "${path}/registraionOfCases/caseRegistrationLike",
                     data: registrationOfCases,
@@ -55,12 +55,200 @@
                 });
             }
         }
+
+        function selectById(id) {
+            $.ajax({
+                url: "${path}/registraionOfCases/selectById",
+                data: "id=" + id,
+                type: "post",
+                success: function (data) {
+                    var data = JSON.parse(data);
+                    $("#id").val(data.id);
+                    $("#unitName").val(data.unitName);
+                    $("#organizational_code").val(data.organizationalCode);
+                    $("#name_of_the_complainant").val(data.nameOfTheComplainant);
+                    $("#id_card").val(data.idCard);
+                    $("#phone").val(data.phone);
+                    $("#name_of_registrant").val(data.nameOfRegistrant);
+                    $("#account_character").val(data.accountCharacter);
+                    $("#age").val(data.age);
+                    $("#sex").val(data.sex);
+                    $("#name_of_the_filer").val(data.nameOfTheFiler);
+                    $("#filing_month").val(data.filingMonth);
+                    $("#complaint_contents").val(data.complaintContents);
+                    $("#number_of_auditors").val(data.numberOfAuditors);
+                    $("#audit_households").val(data.auditHouseholds);
+                    $("#amount_paid").val(data.amountPaid);
+                    $("#filing_time").val(data.filingTime);
+                }
+            })
+        }
+
+        function query() {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage",
+                data: "page=${map.page}&status=1&typeStatus=2&approvalStatus=0",
+                type: "get",
+                success: function () {
+                    location.reload();
+                }
+            })
+        }
+
+        function updateBySave() {
+            var id = $("#id").val();
+            var name = $("#unitName").val();
+            var organizational_code = $("#organizational_code").val();
+            var name_of_the_complainant = $("#name_of_the_complainant").val();
+            var id_card = $("#id_card").val();
+            var phone = $("#phone").val();
+            var name_of_registrant = $("#name_of_registrant").val();
+            var account_character = $("#account_character").val();
+            var age = $("#age").val();
+            var sex = $("#sex").val();
+            var name_of_the_filer = $("#name_of_the_filer").val();
+            var filing_month = $("#filing_month").val();
+            var complaint_contents = $("#complaint_contents").val();
+            var numberOfAuditors = $("#number_of_auditors").val();
+            var auditHouseholds = $("#audit_households").val();
+            var amountPaid = $("#amount_paid").val();
+            var filingTime = $("#filing_time").val();
+
+            var registrationOfCases = {
+                "id": id,
+                "unitName": name,
+                "organizationalCode": organizational_code,
+                "nameOfTheComplainant": name_of_the_complainant,
+                "idCard": id_card,
+                "phone": phone,
+                "nameOfRegistrant": name_of_registrant,
+                "accountCharacter": account_character,
+                "age": age,
+                "sex": sex,
+                "nameOfTheFiler": name_of_the_filer,
+                "filingMonth": filing_month,
+                "complaintContents": complaint_contents,
+                "numberOfAuditors": numberOfAuditors,
+                "auditHouseholds": auditHouseholds,
+                "amountPaid": amountPaid,
+                "filingTime": filingTime,
+            }
+
+            $.ajax({
+                url: "${path}/registraionOfCases/update",
+                data: registrationOfCases,
+                type: "post",
+                success: function () {
+                    query();
+                }
+            });
+        }
+
+        function del(id) {
+            if (confirm("确定删除吗")) {
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/registraionOfCases/delete",
+                    data: "id=" + id,
+                    type: "post",
+                    success: function () {
+                        query();
+                    }
+                })
+                return true;
+            }
+        }
+
+        function save() {
+            var name = $("#unitName2").val();
+            var organizational_code = $("#organizational_code2").val();
+            var name_of_the_complainant = $("#name_of_the_complainant2").val();
+            var id_card = $("#id_card2").val();
+            var phone = $("#phone2").val();
+            var name_of_registrant = $("#name_of_registrant2").val();
+            var account_character = $("#account_character2").val();
+            var age = $("#age2").val();
+            var sex = $("#sex2").val();
+            var name_of_the_filer = $("#name_of_the_filer2").val();
+            var filing_month = $("#filing_month2").val();
+            var complaint_contents = $("#complaint_contents2").val();
+            var numberOfAuditors = $("#number_of_auditors2").val();
+            var auditHouseholds = $("#audit_households2").val();
+            var amountPaid = $("#amount_paid2").val();
+            var filingTime = $("#filing_time2").val();
+
+            var registrationOfCases = {
+                "unitName": name,
+                "organizationalCode": organizational_code,
+                "nameOfTheComplainant": name_of_the_complainant,
+                "idCard": id_card,
+                "phone": phone,
+                "nameOfRegistrant": name_of_registrant,
+                "accountCharacter": account_character,
+                "age": age,
+                "sex": sex,
+                "nameOfTheFiler": name_of_the_filer,
+                "filingMonth": filing_month,
+                "complaintContents": complaint_contents,
+                "numberOfAuditors": numberOfAuditors,
+                "auditHouseholds": auditHouseholds,
+                "amountPaid": amountPaid,
+                "filingTime": filingTime,
+                "typeStatus": 2,
+                "approvalStatus": 0
+            }
+            $.ajax({
+                url: "${path}/registraionOfCases/insert",
+                data: registrationOfCases,
+                type: "post",
+                success: function (status) {
+                    console.log(status);
+                    query();
+                }
+            });
+        }
+
+        function selectUpload(id) {
+            if (id !== undefined) {
+                $.ajax({
+                    url: "${path}/specialAuditMaterials/upload",
+                    data: "id=" + id,
+                    type: "post",
+                    dataType: "text",
+                    success: function (status) {
+                        console.log("传入id");
+                    }
+                });
+            }
+        }
+
+        function upload() {
+            //获取上传文件
+            var file = $('#file')[0].files[0];
+            //创建FormData对象
+            var formData = new FormData();
+            formData.append("file", file);
+            console.log("id:", ${id});
+            if (file !== undefined) {
+                $.ajax({
+                    url: "${path}/specialAuditMaterials/upload",
+                    data: formData,
+                    type: "post",
+                    dataType: "text",
+                    async: false,
+                    processData: false, // 使数据不做处理
+                    contentType: false, // 不要设置Content-Type请求头
+                    success: function (status) {
+                        console.log(status);
+                        alert("上传成功");
+                    }
+                });
+            }
+        }
     </script>
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="shebao" ng-controller="specialauditController">
 <!-- .box-body -->
 <toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-center'}"></toaster-container>
-
 <div class="box-header with-border">
     <h3 class="box-title">日常审计</h3>
 </div>
@@ -99,7 +287,7 @@
                 <div class="form-group form-inline">
                     <div class="btn-group">
                         <button type="button" ng-click="entity={'typeStatus':1}" class="btn btn-default" title="登记"
-                                data-toggle="modal" data-target="#editModal"><i class="fa fa-file-o"></i> 登记
+                                data-toggle="modal" data-target="#editModal2"><i class="fa fa-file-o"></i> 登记
                         </button>
                     </div>
                 </div>
@@ -139,15 +327,17 @@
                     <td>${ds.nameOfTheFiler}</td>
                     <td>${ds.phone}</td>
                     <td>${ds.complaintContents}</td>
-                    <td>
-                        <button type="button" ng-click="findOne(pojo.id)" class="btn bg-olive btn-xs"
+                    <td><%--ng-click="findOne(pojo.id)"--%>
+                        <button type="button" class="btn bg-olive btn-xs" onclick="selectById(${ds.id})"
                                 data-toggle="modal"
                                 data-target="#editModal">修改
                         </button>
-                        <button type="button" ng-click="deleteOne(pojo.id)" class="btn bg-olive btn-xs">
+                            <%--ng-click="deleteOne(pojo.id)"--%>
+                        <button type="button" class="btn bg-olive btn-xs" onclick="del(${ds.id})">
                             删除
                         </button>
-                        <button type="button" ng-click="findOne(pojo.id)" class="btn bg-olive btn-xs"
+                            <%--ng-click="findOne(pojo.id)"--%>
+                        <button type="button" onclick="selectUpload(${ds.id})" class="btn bg-olive btn-xs"
                                 data-toggle="modal"
                                 data-target="#editModal1">上传材料
                         </button>
@@ -171,11 +361,11 @@
 
         <c:if test="${map.num==null && map.page==null}">
             <c:if test="${map.pages>1}">
-                <a href="${path}/registraionOfCases/selectLike?page=${map.pages-1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=1">上一页</a>
+                <a href="${path}/registraionOfCases/caseRegistrationLike?page=${map.pages-1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=1&typeStatus=2&approvalStatus=0">上一页</a>
             </c:if>
             第 ${map.pages} 页&nbsp;&nbsp;&nbsp;共 ${map.nums} 页
             <c:if test="${map.pages<map.nums}">
-                <a href="${path}/registraionOfCases/selectLike?page=${map.pages+1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=1">下一页</a>
+                <a href="${path}/registraionOfCases/caseRegistrationLike?page=${map.pages+1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=1&typeStatus=2&approvalStatus=0">下一页</a>
             </c:if>
         </c:if>
         <c:if test="${map.counts==null}">
@@ -192,7 +382,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt1" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">登记页面</h3>
+                <h3 id="myModalLabel">修改页面</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped">
@@ -200,40 +390,41 @@
                         <td>
                             单位名称:
                         </td>
-                        <td colspan="2"><input ng-model="entity.unitName"
+                        <input type="hidden" id="id"/>
+                        <td colspan="2"><input ng-model="entity.unitName" id="unitName"
                                                class="form-control"
                                                placeholder="单位名称"></td>
                         <td align="right">
                             投诉内容：
                         </td>
-                        <td colspan="2"><input ng-model="entity.complaintContents"
+                        <td colspan="2"><input ng-model="entity.complaintContents" id="complaint_contents"
                                                class="form-control"
                                                placeholder="投诉内容"></td>
                     </tr>
                     <tr>
                         <td>组织机构代码:</td>
-                        <td><input ng-model="entity.organizationalCode"
+                        <td><input ng-model="entity.organizationalCode" id="organizational_code"
                                    class="form-control"
                                    placeholder="组织机构代码"></td>
                         <td>投诉人姓名:</td>
-                        <td><input ng-model="entity.nameOfTheComplainant"
+                        <td><input ng-model="entity.nameOfTheComplainant" id="name_of_the_complainant"
                                    class="form-control"
                                    placeholder="投诉人姓名"></td>
                         <td>投诉人身份证号:</td>
-                        <td><input ng-model="entity.idCard" class="form-control"
+                        <td><input ng-model="entity.idCard" class="form-control" id="id_card"
                                    placeholder="投诉人身份证号"></td>
                     </tr>
                     <tr>
                         <td>联系电话:</td>
-                        <td><input ng-model="entity.phone" class="form-control"
+                        <td><input ng-model="entity.phone" class="form-control" id="phone"
                                    placeholder="联系电话"></td>
                         <td>接收人:</td>
-                        <td><input ng-model="entity.nameOfRegistrant"
+                        <td><input ng-model="entity.nameOfRegistrant" id="name_of_registrant"
                                    class="form-control"
                                    placeholder="接收人"></td>
                         <td>户口性质:</td>
                         <td>
-                            <select class="form-control"
+                            <select class="form-control" id="account_character"
                                     ng-model="entity.accountCharacter">
                                 <option value="">请选择</option>
                                 <option value="0">农户</option>
@@ -243,36 +434,128 @@
                     <tr>
                         <td>性别:</td>
                         <td>
-                            <select class="form-control"
+                            <select class="form-control" id="sex"
                                     ng-model="entity.sex">
                                 <option value="">请选择</option>
                                 <option value="0">男</option>
                                 <option value="1">女</option>
                             </select></td>
                         <td>年龄:</td>
-                        <td><input ng-model="entity.age" class="form-control"
+                        <td><input ng-model="entity.age" class="form-control" id="age"
                                    placeholder="年龄"></td>
                         <td>审计人数:</td>
-                        <td><input ng-model="entity.numberOfAuditors"
+                        <td><input ng-model="entity.numberOfAuditors" id="number_of_auditors"
                                    class="form-control"
                                    placeholder="审计人数"></td>
                     </tr>
                     <tr>
                         <td>审计户数:</td>
-                        <td><input ng-model="entity.auditHouseholds"
+                        <td><input ng-model="entity.auditHouseholds" id="audit_households"
                                    class="form-control"
                                    placeholder="审计户数"></td>
                         <td>补缴数额</td>
-                        <td><input ng-model="entity.amountPaid" class="form-control"
+                        <td><input ng-model="entity.amountPaid" class="form-control" id="amount_paid"
                                    placeholder="补缴数额"></td>
                         <td>立案时间</td>
-                        <td><input ng-model="entity.filingTime" class="form-control"
+                        <td><input ng-model="entity.filingTime" class="form-control" id="filing_time"
                                    placeholder="立案时间"></td>
                     </tr>
                 </table>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-success" ng-click="yanzheng()">保存</button>
+            <div class="modal-footer"><%--ng-click="yanzheng()"--%>
+                <button class="btn btn-success" onclick="updateBySave()" data-dismiss="modal" aria-hidden="true">修改
+                </button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="bt2" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel2">添加页面</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td>
+                            单位名称:
+                        </td>
+                        <td colspan="2"><input ng-model="entity.unitName" id="unitName2"
+                                               class="form-control"
+                                               placeholder="单位名称"></td>
+                        <td align="right">
+                            投诉内容：
+                        </td>
+                        <td colspan="2"><input ng-model="entity.complaintContents" id="complaint_contents2"
+                                               class="form-control"
+                                               placeholder="投诉内容"></td>
+                    </tr>
+                    <tr>
+                        <td>组织机构代码:</td>
+                        <td><input ng-model="entity.organizationalCode" id="organizational_code2"
+                                   class="form-control"
+                                   placeholder="组织机构代码"></td>
+                        <td>投诉人姓名:</td>
+                        <td><input ng-model="entity.nameOfTheComplainant" id="name_of_the_complainant2"
+                                   class="form-control"
+                                   placeholder="投诉人姓名"></td>
+                        <td>投诉人身份证号:</td>
+                        <td><input ng-model="entity.idCard" class="form-control" id="id_card2"
+                                   placeholder="投诉人身份证号"></td>
+                    </tr>
+                    <tr>
+                        <td>联系电话:</td>
+                        <td><input ng-model="entity.phone" class="form-control" id="phone2"
+                                   placeholder="联系电话"></td>
+                        <td>接收人:</td>
+                        <td><input ng-model="entity.nameOfRegistrant" id="name_of_registrant2"
+                                   class="form-control"
+                                   placeholder="接收人"></td>
+                        <td>户口性质:</td>
+                        <td>
+                            <select class="form-control" id="account_character2"
+                                    ng-model="entity.accountCharacter">
+                                <option value="">请选择</option>
+                                <option value="0">农户</option>
+                                <option value="1">城镇户</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td>性别:</td>
+                        <td>
+                            <select class="form-control" id="sex2"
+                                    ng-model="entity.sex">
+                                <option value="">请选择</option>
+                                <option value="0">男</option>
+                                <option value="1">女</option>
+                            </select></td>
+                        <td>年龄:</td>
+                        <td><input ng-model="entity.age" class="form-control" id="age2"
+                                   placeholder="年龄"></td>
+                        <td>审计人数:</td>
+                        <td><input ng-model="entity.numberOfAuditors" id="number_of_auditors2"
+                                   class="form-control"
+                                   placeholder="审计人数"></td>
+                    </tr>
+                    <tr>
+                        <td>审计户数:</td>
+                        <td><input ng-model="entity.auditHouseholds" id="audit_households2"
+                                   class="form-control"
+                                   placeholder="审计户数"></td>
+                        <td>补缴数额</td>
+                        <td><input ng-model="entity.amountPaid" class="form-control" id="amount_paid2"
+                                   placeholder="补缴数额"></td>
+                        <td>立案时间</td>
+                        <td><input ng-model="entity.filingTime" class="form-control" id="filing_time2"
+                                   placeholder="立案时间"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer"><%--ng-click="yanzheng()"--%>
+                <button class="btn btn-success" onclick="save()" data-dismiss="modal" aria-hidden="true">保存</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
@@ -287,10 +570,11 @@
                 <h3 id="myModalLabel1">上传材料</h3>
             </div>
             <div class="modal-body">
-                上传材料：<input type="file" name="file" id="file">
+                上传材料：<input type="file" name="files" id="file">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" ng-click="upload(entity.id)">上传</button>
+                <%--ng-click="upload(entity.id)"--%>
+                <button class="btn btn-success" onclick="upload()" data-dismiss="modal" aria-hidden="true">上传</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
