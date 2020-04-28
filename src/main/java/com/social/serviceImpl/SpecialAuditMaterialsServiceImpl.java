@@ -1,39 +1,55 @@
 package com.social.serviceImpl;
 
+import com.social.dao.SpecialAuditMaterialsMapper;
 import com.social.pojo.SpecialAuditMaterials;
 import com.social.service.SpecialAuditMaterialsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+
+@Service
+@Transactional
 public class SpecialAuditMaterialsServiceImpl implements SpecialAuditMaterialsService {
+    @Autowired
+    @Resource
+    SpecialAuditMaterialsMapper specialAuditMaterialsMapper;
 
     @Override
     public int deleteByPrimaryKey(Integer id) {
-        return 0;
+        int status = specialAuditMaterialsMapper.deleteByPrimaryKey(id);
+        return status;
     }
 
     @Override
     public int insert(SpecialAuditMaterials record) {
-        return 0;
+        int status = specialAuditMaterialsMapper.insert(record);
+        return status;
     }
 
     @Override
     public int insertSelective(SpecialAuditMaterials record) {
-        return 0;
-    }
-    @Transactional(propagation= Propagation.SUPPORTS,readOnly = true)
-    @Override
-    public SpecialAuditMaterials selectByPrimaryKey(Integer id) {
-        return null;
+        int status = specialAuditMaterialsMapper.insertSelective(record);
+        return status;
     }
 
     @Override
+    public SpecialAuditMaterials selectByRegistrationOfCasesId(Integer id) {
+        return specialAuditMaterialsMapper.selectByRegistrationOfCasesId(id);
+    }
+
+
+    @Override
     public int updateByPrimaryKeySelective(SpecialAuditMaterials record) {
-        return 0;
+        int status = specialAuditMaterialsMapper.updateByPrimaryKeySelective(record);
+        return status;
     }
 
     @Override
     public int updateByPrimaryKey(SpecialAuditMaterials record) {
-        return 0;
+        int status = specialAuditMaterialsMapper.updateByPrimaryKey(record);
+        return status;
     }
 }

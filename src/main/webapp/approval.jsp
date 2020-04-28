@@ -16,16 +16,14 @@
     <link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="css/style.css">
-
     <!--引入分页插件资源-->
     <link rel="stylesheet" href="plugins/angularjs/pagination.css">
+    <link rel="stylesheet" href="plugins/angularjs/toaster.min.css">
     <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="plugins/angularjs/toaster.min.css">
     <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="plugins/angularjs/angular-animate.min.js"></script>
     <script type="text/javascript" src="plugins/angularjs/toaster.min.js"></script>
-
     <script type="text/javascript" src="plugins/angularjs/pagination.js"></script>
     <script type="text/javascript" src="js/base_pagination.js"></script>
     <script type="text/javascript" src="js/service/approvalService.js"></script>
@@ -76,23 +74,74 @@
 
         function updateStatus(id, approvalStatus) {
             //审批通过执行
-            if(approvalStatus===1){
-                if (confirm("审批通过将不允许再次修改，您确定要执行此操作吗?")) {
-                    console.log(id, approvalStatus);
-                    $.ajax({
-                        url: "${path}/registraionOfCases/updateStatus",
-                        data: "id=" + id + "&approvalStatus=" + approvalStatus + "&typeStatus=3",
-                        type: "post",
-                        dataType: "text",
-                        success: function () {
-                            query();
-                        }
-                    });
-                    return true;
-                }
+            if (approvalStatus === 1) {
+                update1(id, approvalStatus);
             }
-            //审批不通过执行
+            //审批没通过执行
+            if (approvalStatus === 2) {
+                update2(id, 0);
+            }
+        }
 
+        function update1(id, approvalStatus) {
+            if (confirm("审批通过将不允许再次修改，您确定要执行此操作吗?")) {
+                $.ajax({
+                    url: "${path}/registraionOfCases/updateStatus",
+                    data: "id=" + id + "&approvalStatus=" + approvalStatus + "&typeStatus=3",
+                    type: "post",
+                    dataType: "text",
+                    success: function () {
+                        query();
+                    }
+                });
+                return true;
+            }
+        }
+
+        function update2(id, approvalStatus) {
+            //审批不通过执行
+            console.log("等于2执行", id);
+            var causeOfAction = $("#causeOfAction").val();
+            var reasonsForTermination = $("#reasonsForTermination").val();
+            var investigatorViews = $("#investigatorViews").val();
+            var responsibleOpinions = $("#responsibleOpinions").val();
+            $.ajax({
+                url: "${path}/registraionOfCases/updateStatus",
+                data: "id=" + id + "&approvalStatus=" + approvalStatus,
+                type: "post",
+                dataType: "text",
+                success: function (id) {
+                    console.log(id);
+                    $(".parid").val(id);
+                }
+            });
+        }
+
+        function save(approvalStatus) {
+            //收集参数
+            var param_id = $(".parid").val();
+            var causeOfAction = $("#causeOfAction").val();
+            var reasonsForTermination = $("#reasonsForTermination").val();
+            var investigatorViews = $("#investigatorViews").val();
+            var responsibleOpinions = $("#responsibleOpinions").val();
+            var data = {
+                "registrationOfCasesId": param_id,
+                "causeOfAction": causeOfAction,
+                "reasonsForTermination": reasonsForTermination,
+                "investigatorViews": investigatorViews,
+                "responsibleOpinions": responsibleOpinions
+            }
+            console.log("数据:", data);
+            $.ajax({
+                url: "${path}/terminationOfFilingForm/insert",
+                data: data,
+                type: "post",
+                dataType: "text",
+                success: function () {
+                    update2(param_id, approvalStatus);
+                    query();
+                }
+            });
         }
     </script>
 </head>
@@ -182,6 +231,9 @@
                         <c:if test="${ds.warningTime>7}">
                             <span style="color:red;">已经超过7个工作日，仍未进行立案审批</span>
                         </c:if>
+                        <c:if test="${ds.warningTime<7||ds.warningTime==null}">
+                            <span style="color:cadetblue;">正常</span>
+                        </c:if>
                     </td>
                     <td><%--ng-click="updateStatusYes(pojo.id)"--%>
                         <button type="button" class="btn bg-olive btn-xs"
@@ -239,25 +291,27 @@
                 <table class="table table-bordered table-striped">
                     <tr>
                         <td>案由:</td>
-                        <td><input ng-model="entity.causeOfAction" class="form-control">
+                        <td><input ng-model="entity.causeOfAction" class="form-control" id="causeOfAction">
                         </td>
                     </tr>
                     <tr>
                         <td>终止执行原因:</td>
-                        <td><textarea ng-model="entity.reasonsForTermination"></textarea></td>
+                        <td><textarea ng-model="entity.reasonsForTermination" id="reasonsForTermination"></textarea>
+                        </td>
                     </tr>
                     <tr>
                         <td>调查人意见:</td>
-                        <td><textarea ng-model="entity.investigatorViews"></textarea></td>
+                        <td><textarea ng-model="entity.investigatorViews" id="investigatorViews"></textarea></td>
                     </tr>
                     <tr>
                         <td>负责人意见:</td>
-                        <td><textarea ng-model="entity.responsibleOpinions"></textarea></td>
+                        <td><textarea ng-model="entity.responsibleOpinions" id="responsibleOpinions"></textarea></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success">保存</button>
+                <button class="btn btn-success" onclick="save(2)">保存</button>
+                <input type="hidden" value="" class="parid">;
             </div>
         </div>
     </div>

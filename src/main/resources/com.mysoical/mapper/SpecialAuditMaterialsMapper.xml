@@ -11,11 +11,11 @@
   <sql id="Base_Column_List" >
     id, registration_of_cases_id, audit_report_url, state, time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByRegistrationOfCasesId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from special_audit_materials
-    where id = #{id,jdbcType=INTEGER}
+    where registration_of_cases_id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from special_audit_materials

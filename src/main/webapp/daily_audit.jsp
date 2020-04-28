@@ -208,6 +208,7 @@
         }
 
         function selectUpload(id) {
+            console.log("搜索",id);
             if (id !== undefined) {
                 $.ajax({
                     url: "${path}/specialAuditMaterials/upload",

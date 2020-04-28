@@ -1,8 +1,8 @@
-package com.social.dao;
+package com.social.service;
 
 import com.social.pojo.TerminationOfFilingForm;
 
-public interface TerminationOfFilingFormMapper {
+public interface TerminationOfFilingFormService {
 
     int deleteByPrimaryKey(Integer id);
 

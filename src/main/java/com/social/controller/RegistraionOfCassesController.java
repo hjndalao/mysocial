@@ -2,16 +2,15 @@ package com.social.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.social.pojo.RegistrationOfCases;
-import com.social.pojo.SpecialAuditMaterials;
 import com.social.service.RegistraionOfCasesService;
+import com.social.util.PageUtil;
+import com.social.util.StatusUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,74 +23,22 @@ public class RegistraionOfCassesController {
     @Autowired
     private RegistraionOfCasesService registraionOfCasesService;
 
-    //分页方法
-    public Map<String, Integer> pageUtil(Integer pageNum, Integer page, Integer count) {
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        //当前页
-        if (page == null) page = 1;
-        //每页显示条数
-        if (pageNum == null) pageNum = 5;
-        //剩余页数
-        int remaining_pages = 0;
-        //处理显示多少页
-        if (count % pageNum == 0) {
-            remaining_pages = count / pageNum;
-        } else {
-            remaining_pages = count / pageNum + 1;
-        }
-        map.put("page", page);
-        map.put("pageNum", pageNum);
-        map.put("remaining_pages", remaining_pages);
-        map.put("count", count);
-        return map;
-    }
-
-    //状态方法
-    public Map<String, Integer> status(Integer typeStatus, Integer approvalStatus) {
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
-        //类型状态
-        if (typeStatus == null) typeStatus = 1;
-        //审批状态
-        if (approvalStatus == null) approvalStatus = 4;
-        map.put("typeStatus", typeStatus);
-        map.put("approvalStatus", approvalStatus);
-        return map;
-    }
-
-    //根据状态返回页面
-    public String statusYe(Integer status){
-        if (status == 1) {
-            System.out.println("运行1");
-            return "redirect:/daily_audit.jsp";
-        } else if (status == 2) {
-            System.out.println("运行2");
-            return "redirect:/registrationOfCases.jsp";
-        } else if (status == 3) {
-            System.out.println("运行3");
-            return "redirect:/special_audit.jsp";
-        } else if(status == 4){
-            System.out.println("运行4");
-            return "redirect:/approval.jsp";
-        }else {
-            return "";
-        }
-    }
-   /*
-        typeStatus 类型状态 (1、立案登记 2、日常审批 3、专项审批)
-        approvalStatus 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);
-    */
+    /*
+         typeStatus 类型状态 (1、立案登记 2、日常审批 3、专项审批)
+         approvalStatus 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);
+     */
     //案件登记分页查询
     @RequestMapping("caseRegistrationPage")
     public String caseRegistrationPage(Integer typeStatus, Integer approvalStatus, Integer page, Integer pageNum, HttpSession session, Integer status) {
         //状态方法
-        Map<String, Integer> mapStatus = status(typeStatus, approvalStatus);
+        Map<String, Integer> mapStatus = StatusUtil.status(typeStatus, approvalStatus);
         //获取状态
         Integer status1 = mapStatus.get("typeStatus");
         Integer status2 = mapStatus.get("approvalStatus");
         //所有条数
         Integer count = registraionOfCasesService.caseRegistrationCount(null, null, null, status1, status2);
         //分页方法
-        Map<String, Integer> util = pageUtil(pageNum, page, count);
+        Map<String, Integer> util = PageUtil.page(pageNum, page, count);
         Integer pages = util.get("page");
         Integer num = util.get("pageNum");
         Integer remaining_pages = util.get("remaining_pages");
@@ -109,7 +56,7 @@ public class RegistraionOfCassesController {
         session.setAttribute("data", registrationOfCases);
         //跳转案件登记页面
         //根据状态返回页面
-        return statusYe(status);
+        return StatusUtil.statusYe(status);
     }
 
     /*
@@ -119,17 +66,15 @@ public class RegistraionOfCassesController {
     //案件登记模糊查询
     @RequestMapping("caseRegistrationLike")
     public String caseRegistrationLike(String unitName, String organizationalCode, String nameOfRegistrant, Integer page, Integer pageNum, HttpSession session, Integer status, Integer typeStatus, Integer approvalStatus) {
-        System.out.println("页面跳转状态:" + status);
         //状态方法
-        Map<String, Integer> likeStatus = status(typeStatus, approvalStatus);
+        Map<String, Integer> likeStatus = StatusUtil.status(typeStatus, approvalStatus);
         //获取状态
         Integer status1 = likeStatus.get("typeStatus");
         Integer status2 = likeStatus.get("approvalStatus");
         //所有条数
         Integer count = registraionOfCasesService.caseRegistrationCount("%" + unitName + "%", "%" + nameOfRegistrant + "%", "%" + organizationalCode + "%", status1, status2);
-        System.out.println(count);
         //分页方法
-        Map<String, Integer> util = pageUtil(pageNum, page, count);
+        Map<String, Integer> util = PageUtil.page(pageNum, page, count);
         Integer pages = util.get("page");
         Integer num = util.get("pageNum");
         Integer remaining_pages = util.get("remaining_pages");
@@ -151,7 +96,7 @@ public class RegistraionOfCassesController {
         session.setAttribute("organizationalCode", organizationalCode);
         session.setAttribute("nameOfRegistrant", nameOfRegistrant);
         //根据状态返回页面
-        return statusYe(status);
+        return StatusUtil.statusYe(status);
     }
 
     //案件登记主键查询
@@ -187,19 +132,20 @@ public class RegistraionOfCassesController {
     @RequestMapping("update")
     @ResponseBody
     public String update(RegistrationOfCases registrationOfCases) {
-        System.out.println("修改:" + registrationOfCases);
         //修改操作 动态sql
         int status = registraionOfCasesService.updateByPrimaryKeySelective(registrationOfCases);
         return JSON.toJSONString(status);
     }
 
-    //案件登记修改状态
+    //案件登记修改状态   false true
     @RequestMapping("updateStatus")
     @ResponseBody
-    public String updateStatus(Integer approvalStatus, Integer typeStatus, Integer id) {
-        int status = registraionOfCasesService.updateStatus(approvalStatus, typeStatus, id);
-        return JSON.toJSONString(status);
+    public String updateStatus(Integer approvalStatus, Integer typeStatus, Integer id, HttpSession session) {
+        registraionOfCasesService.updateStatus(approvalStatus, typeStatus, id);
+        session.setAttribute("ids", id);
+        return JSON.toJSONString(id);
     }
+
 
     //案件登记删除
     @RequestMapping("delete")

@@ -16,14 +16,13 @@
     <link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="plugins/angularjs/toaster.min.css">
+    <!--引入分页插件资源-->
+    <link rel="stylesheet" href="plugins/angularjs/pagination.css">
     <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
-
     <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
     <script type="text/javascript" src="plugins/angularjs/angular-animate.min.js"></script>
     <script type="text/javascript" src="plugins/angularjs/toaster.min.js"></script>
-    <!--引入分页插件资源-->
-    <link rel="stylesheet" href="plugins/angularjs/pagination.css">
     <script type="text/javascript" src="plugins/angularjs/pagination.js"></script>
     <script type="text/javascript" src="js/base_pagination.js"></script>
     <script type="text/javascript" src="js/service/registrationOfCasesService.js"></script>
@@ -134,6 +133,60 @@
             var name_of_the_filer = $("#name_of_the_filer").val();
             var filing_month = $("#filing_month").val();
             var complaint_contents = $("#complaintContents").val();
+
+            if (name == null || name === "") {
+                alert("单位名称不能为空");
+                return;
+            }
+            if (organizational_code == null || organizational_code === "") {
+                alert("组织机构代码不能为空");
+                return;
+            }
+            if (!/^0\d{7}$/.test(organizational_code)) {
+                alert("组织机构代码格式有误，请重填");
+                return false;
+            }
+            if (name_of_the_complainant == null || name_of_the_complainant === "") {
+                alert("投诉人姓名不能为空");
+                return;
+            }
+            if (id_card == null || id_card === "") {
+                alert("投诉人身份证号不能为空");
+                return;
+            }
+            if (!(/^(\d{18}|\d{17}x)$/.test(id_card))) {
+                alert("投诉人身份证号格式不正确,请重新填写");
+                return;
+            }
+            if (phone == null || phone === "") {
+                alert("联系电话不能为空");
+                return;
+            }
+            if (!(/^1(3|5|6|8)\d{9}$/.test(phone))) {
+                alert("手机号码格式有误，请重填");
+                return;
+            }
+            if (name_of_registrant == null || name_of_registrant === "") {
+                alert("接收人不能为空");
+                return;
+            }
+            if (account_character == null || account_character === "") {
+                alert("户口性质不能为空");
+                return;
+            }
+            if (age == null || age === "") {
+                alert("年龄不能为空");
+                return;
+            }
+            if (sex == null || sex === "") {
+                alert("性别不能为空");
+                return;
+            }
+            if (complaint_contents == null || complaint_contents === "") {
+                alert("投诉内容不能为空");
+                return;
+            }
+            $("#sp1").text("");
             var registrationOfCases = {
                 "unitName": name,
                 "organizationalCode": organizational_code,

@@ -23,7 +23,6 @@
     <mvc:resources location="/img/" mapping="/images/**"/>
     <mvc:resources location="/css/" mapping="/css/**"/>
     <mvc:resources location="/js/" mapping="/js/**"/>
-
     <!-- 配置文件上传类型解析器 multipartResolver-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- 设置上传文件最大尺寸，单位为B -->

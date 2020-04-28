@@ -74,7 +74,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.social.pojo.TerminationOfFilingForm" >
+  <update id="updateByRegistrationOfCasesId" parameterType="com.social.pojo.TerminationOfFilingForm" >
     update termination_of_filing_form
     <set >
       <if test="registrationOfCasesId != null" >
@@ -93,7 +93,7 @@
         responsible_opinions = #{responsibleOpinions,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where registration_of_cases_id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.social.pojo.TerminationOfFilingForm" >
     update termination_of_filing_form

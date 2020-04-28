@@ -73,9 +73,6 @@
                 alert("手机号码格式有误，请重填");
                 return false;
             }
-
-
-
             if ($scope.entity.nameOfRegistrant == null || $scope.entity.nameOfRegistrant == "") {
                alert("接收人不能为空");
                 return;

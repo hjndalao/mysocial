@@ -99,9 +99,14 @@
     <!--void updateStatus(@Param("approvalStatus")Integer approvalStatus,@Param("typeStatus")Integer typeStatus,@Param("id")Integer id);-->
     <!--修改状态(approval_status,type_status)案件提交功能-->
     <update id="updateStatus" parameterType="java.lang.Integer">
-        update registration_of_cases set approval_status=#{approvalStatus},type_status=#{typeStatus}
+        update registration_of_cases
+        <set>
+            <if test="approvalStatus!=null">approval_status=#{approvalStatus},</if>
+            <if test="typeStatus!=null">type_status=#{typeStatus}</if>
+        </set>
         where id=#{id}
     </update>
+
     <select id="DailyByLikeSelect" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

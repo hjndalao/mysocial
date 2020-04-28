@@ -50,4 +50,15 @@ public class SpecialAuditMaterials {
     public void setTime(String time) {
         this.time = time == null ? null : time.trim();
     }
+
+    @Override
+    public String toString() {
+        return "SpecialAuditMaterials{" +
+                "id=" + id +
+                ", registrationOfCasesId=" + registrationOfCasesId +
+                ", auditReportUrl='" + auditReportUrl + '\'' +
+                ", state=" + state +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }

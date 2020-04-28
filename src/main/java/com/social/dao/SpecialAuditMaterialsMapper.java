@@ -11,7 +11,7 @@ public interface SpecialAuditMaterialsMapper {
 
     int insertSelective(SpecialAuditMaterials record);
 
-    SpecialAuditMaterials selectByPrimaryKey(Integer id);
+    SpecialAuditMaterials selectByRegistrationOfCasesId(Integer id);
 
     int updateByPrimaryKeySelective(SpecialAuditMaterials record);
 
