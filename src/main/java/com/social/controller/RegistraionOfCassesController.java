@@ -208,6 +208,4 @@ public class RegistraionOfCassesController {
         int status = registraionOfCasesService.deleteByPrimaryKey(id);
         return JSON.toJSONString(status);
     }
-
-
 }
