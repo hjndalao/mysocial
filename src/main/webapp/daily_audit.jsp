@@ -40,7 +40,7 @@
                 "status": 1,
                 "typeStatus": 2,
                 "approvalStatus": 0
-            }
+            };
             if (name === "" && organizational_code === "" && name_of_registrant === "") {
                 alert("请输入查询信息");
             } else {
@@ -102,6 +102,7 @@
             var name_of_the_complainant = $("#name_of_the_complainant").val();
             var id_card = $("#id_card").val();
             var phone = $("#phone").val();
+            //修改操作者
             var name_of_registrant = $("#name_of_registrant").val();
             var account_character = $("#account_character").val();
             var age = $("#age").val();
@@ -131,8 +132,8 @@
                 "numberOfAuditors": numberOfAuditors,
                 "auditHouseholds": auditHouseholds,
                 "amountPaid": amountPaid,
-                "filingTime": filingTime,
-            }
+                "filingTime": filingTime
+            };
 
             $.ajax({
                 url: "${path}/registraionOfCases/update",
@@ -144,16 +145,22 @@
             });
         }
 
-        function del(id) {
+        function del(id, nameOfRegistrant, unitName, phone) {
+            delData = {
+                "id": id,
+                "nameOfRegistrant": nameOfRegistrant,
+                "unitName": unitName,
+                "phone": phone
+            };
             if (confirm("确定删除吗")) {
                 $.ajax({
-                    url: "${pageContext.request.contextPath}/registraionOfCases/delete",
-                    data: "id=" + id,
+                    url: " ${pageContext.request.contextPath}/registraionOfCases/delete ",
+                    data: delData,
                     type: "post",
                     success: function () {
                         query();
                     }
-                })
+                });
                 return true;
             }
         }
@@ -176,6 +183,75 @@
             var amountPaid = $("#amount_paid2").val();
             var filingTime = $("#filing_time2").val();
 
+            if (name == null || name === "") {
+                alert("单位名称不能为空");
+                return;
+            }
+            if (organizational_code == null || organizational_code === "") {
+                alert("组织机构代码不能为空");
+                return;
+            }
+            if (!/^0\d{7}$/.test(organizational_code)) {
+                alert("组织机构代码格式有误，请重填");
+                return false;
+            }
+            if (name_of_the_complainant == null || name_of_the_complainant === "") {
+                alert("投诉人姓名不能为空");
+                return;
+            }
+            if (id_card == null || id_card === "") {
+                alert("投诉人身份证号不能为空");
+                return;
+            }
+            if (!(/^(\d{18}|\d{17}x)$/.test(id_card))) {
+                alert("投诉人身份证号格式不正确,请重新填写");
+                return;
+            }
+            if (phone == null || phone === "") {
+                alert("联系电话不能为空");
+                return;
+            }
+            if (!(/^1(3|5|6|8)\d{9}$/.test(phone))) {
+                alert("手机号码格式有误，请重填");
+                return;
+            }
+            if (name_of_registrant == null || name_of_registrant === "") {
+                alert("登记人不能为空");
+                return;
+            }
+            if (account_character == null || account_character === "") {
+                alert("户口性质不能为空");
+                return;
+            }
+            if (age == null || age === "") {
+                alert("年龄不能为空");
+                return;
+            }
+            if (sex == null || sex === "") {
+                alert("性别不能为空");
+                return;
+            }
+            if (numberOfAuditors == null || numberOfAuditors === "") {
+                alert("审计人数不能为空");
+                return;
+            }
+            if (auditHouseholds == null || auditHouseholds === "") {
+                alert("审计户数不能为空");
+                return;
+            }
+            if (amountPaid == null || amountPaid === "") {
+                alert("补缴数额不能为空");
+                return;
+            }
+            if (filingTime == null || filingTime === "") {
+                alert("立案时间不能为空");
+                return;
+            }
+            if (complaint_contents == null || complaint_contents === "") {
+                alert("投诉内容不能为空");
+                return;
+            }
+            $("#sp1").text("");
             var registrationOfCases = {
                 "unitName": name,
                 "organizationalCode": organizational_code,
@@ -195,7 +271,7 @@
                 "filingTime": filingTime,
                 "typeStatus": 2,
                 "approvalStatus": 0
-            }
+            };
             $.ajax({
                 url: "${path}/registraionOfCases/insert",
                 data: registrationOfCases,
@@ -208,7 +284,6 @@
         }
 
         function selectUpload(id) {
-            console.log("搜索",id);
             if (id !== undefined) {
                 $.ajax({
                     url: "${path}/specialAuditMaterials/upload",
@@ -216,7 +291,7 @@
                     type: "post",
                     dataType: "text",
                     success: function (status) {
-                        console.log("传入id");
+
                     }
                 });
             }
@@ -228,7 +303,6 @@
             //创建FormData对象
             var formData = new FormData();
             formData.append("file", file);
-            console.log("id:", ${id});
             if (file !== undefined) {
                 $.ajax({
                     url: "${path}/specialAuditMaterials/upload",
@@ -239,10 +313,23 @@
                     processData: false, // 使数据不做处理
                     contentType: false, // 不要设置Content-Type请求头
                     success: function (status) {
-                        console.log(status);
-                        alert("上传成功");
+                        if (status == 0) status = "失败";
+                        if (status == 1) status = "成功";
+                        window.setTimeout(function () {
+                            alert('上传' + status);
+                            query();
+                        }, 500);
+                    },
+                    error: function () {
+                        window.setTimeout(function () {
+                            alert('上传失败 请选择小于5MB的文件');
+                        }, 500);
                     }
                 });
+            }else {
+                window.setTimeout(function () {
+                    alert("请选择上传文件");
+                }, 500);
             }
         }
     </script>
@@ -329,13 +416,14 @@
                     <td>${ds.phone}</td>
                     <td>${ds.complaintContents}</td>
                     <td><%--ng-click="findOne(pojo.id)"--%>
-                        <button type="button" class="btn bg-olive btn-xs" onclick="selectById(${ds.id})"
+                        <button type="button" class="btn bg-olive btn-xs"
+                                onclick="selectById(${ds.id})"
                                 data-toggle="modal"
                                 data-target="#editModal">修改
                         </button>
                             <%--ng-click="deleteOne(pojo.id)"--%>
-                        <button type="button" class="btn bg-olive btn-xs" onclick="del(${ds.id})">
-                            删除
+                        <button type="button" class="btn bg-olive btn-xs"
+                                onclick="del(${ds.id},'${ds.nameOfRegistrant}','${ds.unitName}','${ds.phone}')">删除
                         </button>
                             <%--ng-click="findOne(pojo.id)"--%>
                         <button type="button" onclick="selectUpload(${ds.id})" class="btn bg-olive btn-xs"
@@ -511,7 +599,7 @@
                         <td>联系电话:</td>
                         <td><input ng-model="entity.phone" class="form-control" id="phone2"
                                    placeholder="联系电话"></td>
-                        <td>接收人:</td>
+                        <td>登记人:</td>
                         <td><input ng-model="entity.nameOfRegistrant" id="name_of_registrant2"
                                    class="form-control"
                                    placeholder="接收人"></td>
@@ -556,7 +644,7 @@
                 </table>
             </div>
             <div class="modal-footer"><%--ng-click="yanzheng()"--%>
-                <button class="btn btn-success" onclick="save()" data-dismiss="modal" aria-hidden="true">保存</button>
+                <button class="btn btn-success" onclick="save()">保存</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
@@ -571,7 +659,8 @@
                 <h3 id="myModalLabel1">上传材料</h3>
             </div>
             <div class="modal-body">
-                上传材料：<input type="file" name="files" id="file">
+                上传材料：
+                <input type="file" name="files" id="file">
             </div>
             <div class="modal-footer">
                 <%--ng-click="upload(entity.id)"--%>
@@ -581,7 +670,6 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
 

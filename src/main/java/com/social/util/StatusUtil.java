@@ -27,8 +27,11 @@ public class StatusUtil {
             return "redirect:/special_audit.jsp";
         } else if (status == 4) {
             return "redirect:/approval.jsp";
-        } else {
+        } else if (status == 5) {
+            return "redirect:/registrationOfCases02.jsp";
+        } else if (status == 6) {
+            return "redirect:/new_case_management_form.jsp";
+        } else
             return "";
-        }
     }
 }

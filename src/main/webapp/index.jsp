@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -8,27 +9,24 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>社保稽查项目</title>
+    <c:set var="path" value="${pageContext.request.contextPath}"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <!-- 页面meta /-->
-    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
-    <link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="css/style.css">
-
-    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="plugins/angularjs/toaster.min.css">
-    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
-    <script type="text/javascript" src="plugins/angularjs/angular-animate.min.js"></script>
-    <script type="text/javascript" src="plugins/angularjs/toaster.min.js"></script>
-    <script type="text/javascript" src="js/base.js"></script>
-    <script type="text/javascript" src="js/service/loginService.js"></script>
-    <script type="text/javascript" src="js/controller/loginController.js"></script>
-    <script src="plugins/adminLTE/js/app.min.js"></script>
-
-
+    <link rel="stylesheet" href="${path}/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${path}/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="${path}/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="${path}/css/style.css">
+    <link rel="stylesheet" href="${path}/plugins/angularjs/toaster.min.css">
+    <script src="${path}/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="${path}/plugins/bootstrap/js/bootstrap.min.js"></script>
+<%--    <script type="text/javascript" src="${path}/plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="${path}/plugins/angularjs/angular-animate.min.js"></script>
+    <script type="text/javascript" src="${path}/plugins/angularjs/toaster.min.js"></script>
+    <script type="text/javascript" src="${path}/js/base.js"></script>
+    <script type="text/javascript" src="${path}/js/service/loginService.js"></script>
+    <script type="text/javascript" src="${path}/js/controller/loginController.js"></script>--%>
+    <script src="${path}/plugins/adminLTE/js/app.min.js"></script>
     <script type="text/javascript">
         function SetIFrameHeight() {
             var iframeid = document.getElementById("iframe"); //iframe id
@@ -39,16 +37,13 @@
     </script>
 
 </head>
-
 <body class="hold-transition skin-blue sidebar-mini" ng-app="shebao" ng-controller="loginController"
       ng-init="getUserName();getRoleName()">
-
 <div class="wrapper">
-
     <!-- 页面头部 -->
     <header class="main-header">
         <!-- Logo -->
-        <a href="index.html" class="logo">
+        <a href="index.jsp" class="logo">
             <!-- logo for regular state and mobile devices -->
             <span class="logo-lg"><b>社保</b>稽查平台</span>
         </a>
@@ -56,14 +51,14 @@
         <nav class="navbar navbar-static-top">
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="glyphicon glyphicon-align-justify"></span>
             </a>
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            欢迎你，<span class="hidden-xs">*****</span>
+                            欢迎你: <span class="hidden-xs">大佬</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="user-footer">
@@ -107,28 +102,28 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-login">
-                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&status=2" target="iframe">
-                                <i class="fa fa-circle-o"></i> 案件登记
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&status=2&typeStatus=1&approvalStatus=4" target="iframe">
+                                <i class="fa fa-circle-o"></i> 案件登记&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                         <li id="admin-login1">
                             <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=2&approvalStatus=0&status=1" target="iframe">
-                                <i class="fa fa-circle-o"></i> 日常审计
+                                <i class="fa fa-circle-o"></i> 日常审计&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                         <li id="admin-login2">
                             <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=3&approvalStatus=0&status=3" target="iframe">
-                                <i class="fa fa-circle-o"></i> 专项审计
+                                <i class="fa fa-circle-o"></i> 专项审计&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                         <li id="admin-login3">
-                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=3&approvalStatus=0&status=4" target="iframe">
-                                <i class="fa fa-circle-o"></i> 立案审批
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=4&approvalStatus=0&status=4" target="iframe">
+                                <i class="fa fa-circle-o"></i> 立案审批&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                         <li id="admin-login4" ng-if="true" ><!-- ng-if="isInArray(rolenames,'KEZHANG')" -->
-                            <a href="registrationOfCases02.jsp" target="iframe">
-                                <i class="fa fa-circle-o"></i> 科长审核
+                            <a href="${pageContext.request.contextPath}/ultimate/selectByPage?page=1&pageNum=5&typeStatus=5&approvalStatus=0&status=5" target="iframe">
+                                <i class="fa fa-circle-o"></i> 科长审核&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                     </ul>
@@ -144,8 +139,8 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-login5">
-                            <a href="new_case_management_form.jsp" target="iframe">
-                                <i class="fa fa-circle-o"></i> 新立案件管理
+                            <a href="${pageContext.request.contextPath}/ultimate/selectByPage?page=1&pageNum=5&typeStatus=5&approvalStatus=1&status=6" target="iframe">
+                                <i class="fa fa-circle-o"></i> 新立案件管理&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                     </ul>

@@ -14,5 +14,5 @@ public interface SpecialAuditMaterialsService {
 
     int updateByPrimaryKeySelective(SpecialAuditMaterials record);
 
-    int updateByPrimaryKey(SpecialAuditMaterials record);
+    int updateByregiStrationOfCasesId(SpecialAuditMaterials record);
 }

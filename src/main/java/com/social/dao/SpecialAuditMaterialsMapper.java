@@ -15,5 +15,5 @@ public interface SpecialAuditMaterialsMapper {
 
     int updateByPrimaryKeySelective(SpecialAuditMaterials record);
 
-    int updateByPrimaryKey(SpecialAuditMaterials record);
+    int updateByregiStrationOfCasesId(SpecialAuditMaterials record);
 }

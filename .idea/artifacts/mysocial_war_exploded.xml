@@ -19,11 +19,11 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.3.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.8.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-context:4.3.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.3.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.3.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.3.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.3.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:4.3.8.RELEASE" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.0" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.0" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.3.0" />
@@ -33,10 +33,10 @@
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:1.2.3" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
           <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:4.1.4" />
           <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:0.9.5" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.47" />
+          <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.4" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi:3.10-FINAL" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.5" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml-schemas:3.10-FINAL" />

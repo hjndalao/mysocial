@@ -13,7 +13,7 @@ app.controller("baseController", function ($scope) {
 
     $scope.reloadList = function () {
         $scope.search($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
-    }
+    };
 
     //定义记录选中id的数组
     $scope.selectIds = [];

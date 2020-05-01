@@ -9,26 +9,27 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="IE=edge">
     <title>立案登记</title>
+    <c:set var="path" value="${pageContext.request.contextPath}"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
-    <link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="plugins/angularjs/toaster.min.css">
+    <link rel="stylesheet" href="${path}/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${path}/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="${path}/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="${path}/css/style.css">
+    <link rel="stylesheet" href="${path}/plugins/angularjs/toaster.min.css">
     <!--引入分页插件资源-->
-    <link rel="stylesheet" href="plugins/angularjs/pagination.css">
-    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
-    <script type="text/javascript" src="plugins/angularjs/angular-animate.min.js"></script>
-    <script type="text/javascript" src="plugins/angularjs/toaster.min.js"></script>
-    <script type="text/javascript" src="plugins/angularjs/pagination.js"></script>
-    <script type="text/javascript" src="js/base_pagination.js"></script>
-    <script type="text/javascript" src="js/service/registrationOfCasesService.js"></script>
-    <script type="text/javascript" src="js/controller/baseController.js"></script>
-    <script type="text/javascript" src="js/controller/registrationOfCasesController.js"></script>
-    <c:set var="path" value="${pageContext.request.contextPath}"/>
+    <link rel="stylesheet" href="${path}/plugins/angularjs/pagination.css">
+    <script src="${path}/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="${path}/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <%--    <script type="text/javascript" src="${path}/plugins/angularjs/angular.min.js"></script>
+        <script type="text/javascript" src="${path}/plugins/angularjs/angular-animate.min.js"></script>
+        <script type="text/javascript" src="${path}/plugins/angularjs/toaster.min.js"></script>
+        <script type="text/javascript" src="${path}/plugins/angularjs/pagination.js"></script>
+        <script type="text/javascript" src="${path}/js/base_pagination.js"></script>
+        <script type="text/javascript" src="${path}/js/service/registrationOfCasesService.js"></script>
+        <script type="text/javascript" src="${path}/js/controller/baseController.js"></script>
+        <script type="text/javascript" src="${path}/js/controller/registrationOfCasesController.js"></script>--%>
+
     <script type="text/javascript">
         function selectById(id) {
             $.ajax({
@@ -76,7 +77,7 @@
             var account_character = $("#account_character").val();
             var age = $("#age").val();
             var sex = $("#sex").val();
-            var ame_of_the_filer = $("#name_of_the_filer").val();
+            var name_of_the_filer = $("#name_of_the_filer").val();
             var filing_month = $("#filing_month").val();
             var complaint_contents = $("#complaint_contents").val();
 
@@ -91,10 +92,10 @@
                 "accountCharacter": account_character,
                 "age": age,
                 "sex": sex,
-                "nameOfTheFiler": ame_of_the_filer,
+                "nameOfTheFiler": name_of_the_filer,
                 "filingMonth": filing_month,
-                "complaintContents": complaint_contents,
-            }
+                "complaintContents": complaint_contents
+            };
 
             $.ajax({
                 url: "${path}/registraionOfCases/update",
@@ -104,18 +105,21 @@
                     query();
                 }
             });
-        }
+        };
 
-        function del(id) {
+        function del(id, nameOfRegistrant, unitName, phone) {
+            console.log(name_of_registrant);
+            console.log(unitName);
+            console.log(phone);
             if (confirm("确定删除吗")) {
                 $.ajax({
                     url: "${pageContext.request.contextPath}/registraionOfCases/delete",
-                    data: "id=" + id,
+                    data: "id=" + id + "&nameOfRegistrant=" + nameOfRegistrant + "&unitName=" + unitName + "&phone=" + phone,
                     type: "post",
                     success: function () {
                         query();
                     }
-                })
+                });
                 return true;
             }
         }
@@ -133,7 +137,6 @@
             var name_of_the_filer = $("#name_of_the_filer").val();
             var filing_month = $("#filing_month").val();
             var complaint_contents = $("#complaintContents").val();
-
             if (name == null || name === "") {
                 alert("单位名称不能为空");
                 return;
@@ -167,7 +170,7 @@
                 return;
             }
             if (name_of_registrant == null || name_of_registrant === "") {
-                alert("接收人不能为空");
+                alert("登记人不能为空");
                 return;
             }
             if (account_character == null || account_character === "") {
@@ -214,27 +217,29 @@
         }
 
         function select() {
+            //收集查询参数
             var name = $("#unitName1").val();
             var organizational_code = $("#organizationalCode1").val();
             var name_of_registrant = $("#nameOfRegistrant1").val();
-            console.log(name);
-            console.log(organizational_code);
-            console.log(name_of_registrant)
+            //封装数据
             var registrationOfCases = {
                 "unitName": name,
                 "organizationalCode": organizational_code,
                 "nameOfRegistrant": name_of_registrant,
+                //跳转页面状态
                 "status": 2
-            }
+            };
+            //判断如果输入框没有内容执行
             if (name === "" && organizational_code === "" && name_of_registrant === "") {
                 alert("请输入查询信息");
             } else {
+                //判断如果输入框有内容执行
                 $.ajax({
                     url: "${path}/registraionOfCases/caseRegistrationLike",
                     data: registrationOfCases,
                     type: "post",
                     success: function () {
-                        console.log("运行完成");
+                        //操作成功刷新数据
                         location.reload();
                     }
                 });
@@ -250,6 +255,7 @@
                     type: "post",
                     dataType: "text",
                     success: function () {
+                        //调用查询方法
                         query();
                     }
                 });
@@ -272,16 +278,11 @@
                 <tr>
                     <td style="text-align: right"><span style="white-space: nowrap;display: inline-block">公司名称：</span>
                     </td>
-                    <td><input class="form-control" ng-model="searchEntity.unitName" name="unitName" id="unitName1">
-                    </td>
-                    <td style="text-align: right"><span style="white-space: nowrap;display: inline-block">组织机构代码：</span>
-                    </td>
-                    <td><input class="form-control" ng-model="searchEntity.organizationalCode"
-                               name="organizationalCode" id="organizationalCode1"></td>
-                    <td style="text-align: right"><span style="white-space: nowrap;display: inline-block">接收人：</span>
-                    </td>
-                    <td><input class="form-control" ng-model="searchEntity.nameOfRegistrant" id="nameOfRegistrant1"
-                               name="nameOfRegistrant">
+                    <td><input class="form-control" ng-model="searchEntity.unitName" name="unitName" id="unitName1"></td>
+                    <td style="text-align: right"><span style="white-space: nowrap;display: inline-block">组织机构代码：</span></td>
+                    <td><input class="form-control" ng-model="searchEntity.organizationalCode" name="organizationalCode" id="organizationalCode1"></td>
+                    <td style="text-align: right"><span style="white-space: nowrap;display: inline-block">登记人：</span></td>
+                    <td><input class="form-control" ng-model="searchEntity.nameOfRegistrant" id="nameOfRegistrant1" name="nameOfRegistrant">
                     </td>
                 </tr>
             </table>
@@ -300,9 +301,9 @@
             <!--工具栏-->
             <div class="pull-left">
                 <div class="form-group form-inline">
-                    <div class="btn-group">
+                    <div class="btn-group"><%--ng-click="addClick()"--%>
                         <button type="button" class="btn bg-olive btn-xs" data-toggle="modal"
-                                data-target="#editModal" ng-click="addClick()">登记
+                                data-target="#editModal">登记
                         </button>
                     </div>
                 </div>
@@ -315,10 +316,10 @@
             <tr>
                 <th class="sorting_asc">单位名称</th>
                 <th class="sorting_asc">组织机构代码</th>
-                <th class="sorting">接收人</th>
+                <th class="sorting">登记人</th>
                 <th class="sorting">登记时间</th>
                 <th class="sorting">户口性质</th>
-                <th class="sorting">姓名</th>
+                <th class="sorting">立案人姓名</th>
                 <th class="sorting">联系电话</th>
                 <th class="sorting">投诉内容</th>
                 <th class="sorting">修改</th>
@@ -354,7 +355,8 @@
                     <td>
                             <%--ng-click="deleteOne(pojo.id)"--%>
                         <button type="button" class="btn bg-olive btn-xs"
-                                data-toggle="modal" onclick="del(${d.id})">
+                                data-toggle="modal"
+                                onclick="del(${d.id},'${d.unitName}','${d.nameOfRegistrant}','${d.phone}')">
                             删除
                         </button>
                     </td>
@@ -429,7 +431,7 @@
                         <td>联系电话:</td>
                         <td><input ng-model="entity.phone" id="phone2" class="form-control" placeholder="只能以13、15、18开头">
                         </td>
-                        <td>接收人:</td>
+                        <td>登记人:</td>
                         <td><input ng-model="entity.nameOfRegistrant" class="form-control" id="nameOfRegistrant"></td>
                         <td>户口性质:</td>
                         <td><select ng-model="entity.accountCharacter" class="form-control" id="accountCharacter">
@@ -487,7 +489,7 @@
                     <tr>
                         <td>联系电话:</td>
                         <td><input ng-model="entity2.phone" id="phone" class="form-control"></td>
-                        <td>接收人:</td>
+                        <td>登记人:</td>
                         <td><input ng-model="entity2.nameOfRegistrant" id="name_of_registrant" class="form-control">
                         </td>
                         <td>户口性质:</td>

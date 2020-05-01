@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 定义数据源Bean -->
     <!-- Druid -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="url" value="jdbc:mysql://localhost:3306/social?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC"/>
-        <property name="username" value="root" />
-        <property name="password" value="root" />
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
     </bean>
 
     <!-- 注册SqlSessionFactoryBean -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
         <!-- 自动扫描mappers.xml文件 -->
-        <property name="mapperLocations" value="classpath:com.mysoical/mapper/*Mapper.xml" />
+        <property name="mapperLocations" value="classpath:com.mysoical/mapper/*Mapper.xml"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
-    
+
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.social.dao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="basePackage" value="com.social.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
+    <!--引入定时任务-->
+    <import resource="spring-scheduled.xml"/>
 </beans>

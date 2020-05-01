@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,21 +26,45 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
     }
 
     @Override
-    public int insert(RegistrationOfCases record) {
-        int status = registrationOfCasesMapper.insert(record);
+    public int insert(RegistrationOfCases registrationOfCases) {
+        //日期格式转换
+        Date date = new Date();
+        //设置当前年月日格式
+        SimpleDateFormat yyyy_mm_dd = new SimpleDateFormat("yyyy-MM-dd");
+        //设置当前月份格式
+        SimpleDateFormat mm = new SimpleDateFormat("MM");
+        //将时间转换成年月日
+        String yyyy = yyyy_mm_dd.format(date);
+        //将时间转换成月份
+        String mms = mm.format(date);
+        //设置登记时间
+        registrationOfCases.setRegistrationTime(yyyy);
+        //类型状态 (1、立案登记 2、日常审批 3、专项审批)
+        if (registrationOfCases.getTypeStatus() == null) registrationOfCases.setTypeStatus(1);
+        //审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档, 4 : 立案未提交);
+        if (registrationOfCases.getApprovalStatus() == null) registrationOfCases.setApprovalStatus(4);
+        //立案月
+        registrationOfCases.setFilingMonth(Integer.valueOf(mms));
+        //插入操作
+        int status = registrationOfCasesMapper.insert(registrationOfCases);
+        //返回插入数据状态(成功 or 失败)
         return status;
     }
-
+    //动态sql插入方法
     @Override
     public int insertSelective(RegistrationOfCases record) {
+        //动态插入操作
         int status = registrationOfCasesMapper.insertSelective(record);
+        //返回插入数据状态(成功 or 失败)
         return status;
     }
-
+    //根据主键查询数据
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public RegistrationOfCases selectByPrimaryKey(Integer id) {
+        //主键查询方法
         RegistrationOfCases registrationOfCases = registrationOfCasesMapper.selectByPrimaryKey(id);
+        //返回对象
         return registrationOfCases;
     }
 
@@ -64,6 +90,9 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public List<RegistrationOfCases> caseRegistrationLike(String unitName, String nameOfRegistrant, String organizationalCode, Integer typeStatus, Integer approvalStatus, Integer page, Integer pageNUm) {
+        if ("%%".equals(unitName)) unitName = null;
+        if ("%%".equals(nameOfRegistrant)) nameOfRegistrant = null;
+        if ("%%".equals(organizationalCode)) organizationalCode = null;
         List<RegistrationOfCases> registrationOfCasess = registrationOfCasesMapper.caseRegistrationLike(unitName, nameOfRegistrant, organizationalCode, typeStatus, approvalStatus, page, pageNUm);
         return registrationOfCasess;
     }
@@ -80,10 +109,14 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
         int status = registrationOfCasesMapper.updateStatus(approvalStatus, typeStatus, id);
         return status;
     }
+
     //案件登记所有条数以及模糊查询返回条数
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
-    public Integer caseRegistrationCount(String unitName,String nameOfRegistrant,String organizationalCode,Integer typeStatus,Integer approvalStatus){
+    public Integer caseRegistrationCount(String unitName, String nameOfRegistrant, String organizationalCode, Integer typeStatus, Integer approvalStatus) {
+        if ("%%".equals(unitName)) unitName = null;
+        if ("%%".equals(nameOfRegistrant)) nameOfRegistrant = null;
+        if ("%%".equals(organizationalCode)) organizationalCode = null;
         Integer count = registrationOfCasesMapper.caseRegistrationCount(unitName, nameOfRegistrant, organizationalCode, typeStatus, approvalStatus);
         return count;
     }
@@ -99,6 +132,9 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public RegistrationOfCases selectRegistrationOfCases(String unitName, String organizationalCode, String nameOfTheComplainant) {
+        if ("%%".equals(unitName)) unitName = null;
+        if ("%%".equals(nameOfTheComplainant)) nameOfTheComplainant = null;
+        if ("%%".equals(organizationalCode)) organizationalCode = null;
         RegistrationOfCases registrationOfCases = registrationOfCasesMapper.selectRegistrationOfCases(unitName, organizationalCode, nameOfTheComplainant);
         return registrationOfCases;
     }

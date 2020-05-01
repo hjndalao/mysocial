@@ -62,8 +62,8 @@ INSERT INTO `case_management` VALUES (11, 44, 1, '2019-10-16');
 -- ----------------------------
 -- Table structure for change
 -- ----------------------------
-DROP TABLE IF EXISTS `change`;
-CREATE TABLE `change`  (
+DROP TABLE IF EXISTS `changes`;
+CREATE TABLE `changes`  (
   `id` int(50) NOT NULL AUTO_INCREMENT COMMENT '变更表',
   `change_operator` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '变更操作人',
   `operation_content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作内容',

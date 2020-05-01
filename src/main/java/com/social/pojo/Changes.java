@@ -1,6 +1,6 @@
 package com.social.pojo;
 
-public class Change {
+public class Changes {
     private Integer id;
 
     private String changeOperator;

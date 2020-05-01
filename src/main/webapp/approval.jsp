@@ -43,9 +43,9 @@
                 "organizationalCode": organizational_code,
                 "nameOfRegistrant": name_of_registrant,
                 "status": 4,
-                "typeStatus": 3,
+                "typeStatus": 4,
                 "approvalStatus": 0
-            }
+            };
             if (name === "" && organizational_code === "" && name_of_registrant === "") {
                 alert("请输入查询信息");
             } else {
@@ -59,18 +59,18 @@
                     }
                 });
             }
-        }
+        };
 
         function query() {
             $.ajax({
                 url: "${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage",
-                data: "page=${map.page}&status=4&typeStatus=3&approvalStatus=0",
+                data: "page=${map.page}&status=4&typeStatus=4&approvalStatus=0",
                 type: "get",
                 success: function () {
                     location.reload();
                 }
             })
-        }
+        };
 
         function updateStatus(id, approvalStatus) {
             //审批通过执行
@@ -79,15 +79,15 @@
             }
             //审批没通过执行
             if (approvalStatus === 2) {
-                update2(id, 0);
+                update2(id, approvalStatus);
             }
-        }
+        };
 
         function update1(id, approvalStatus) {
             if (confirm("审批通过将不允许再次修改，您确定要执行此操作吗?")) {
                 $.ajax({
                     url: "${path}/registraionOfCases/updateStatus",
-                    data: "id=" + id + "&approvalStatus=" + approvalStatus + "&typeStatus=3",
+                    data: "id=" + id + "&approvalStatus=" + approvalStatus + "&typeStatus=5",
                     type: "post",
                     dataType: "text",
                     success: function () {
@@ -96,15 +96,10 @@
                 });
                 return true;
             }
-        }
+        };
 
         function update2(id, approvalStatus) {
             //审批不通过执行
-            console.log("等于2执行", id);
-            var causeOfAction = $("#causeOfAction").val();
-            var reasonsForTermination = $("#reasonsForTermination").val();
-            var investigatorViews = $("#investigatorViews").val();
-            var responsibleOpinions = $("#responsibleOpinions").val();
             $.ajax({
                 url: "${path}/registraionOfCases/updateStatus",
                 data: "id=" + id + "&approvalStatus=" + approvalStatus,
@@ -115,7 +110,7 @@
                     $(".parid").val(id);
                 }
             });
-        }
+        };
 
         function save(approvalStatus) {
             //收集参数
@@ -130,8 +125,7 @@
                 "reasonsForTermination": reasonsForTermination,
                 "investigatorViews": investigatorViews,
                 "responsibleOpinions": responsibleOpinions
-            }
-            console.log("数据:", data);
+            };
             $.ajax({
                 url: "${path}/terminationOfFilingForm/insert",
                 data: data,
@@ -255,20 +249,20 @@
         <%--<tm-pagination conf="paginationConf"></tm-pagination>--%>
         <c:if test="${map.nums==null}">
             <c:if test="${map.page>1}">
-                <a href="${path}/registraionOfCases/caseRegistrationPage?page=${map.page-1}&status=4&typeStatus=3&approvalStatus=0">上一页</a>
+                <a href="${path}/registraionOfCases/caseRegistrationPage?page=${map.page-1}&status=4&typeStatus=4&approvalStatus=0">上一页</a>
             </c:if>
             第 ${map.page} 页&nbsp;&nbsp;&nbsp;共 ${map.num} 页
             <c:if test="${map.page<map.num}">
-                <a href="${path}/registraionOfCases/caseRegistrationPage?page=${map.page+1}&status=4&typeStatus=3&approvalStatus=0">下一页</a>
+                <a href="${path}/registraionOfCases/caseRegistrationPage?page=${map.page+1}&status=4&typeStatus=4&approvalStatus=0">下一页</a>
             </c:if>
         </c:if>
         <c:if test="${map.num==null && map.page==null}">
             <c:if test="${map.pages>1}">
-                <a href="${path}/registraionOfCases/caseRegistrationLike?page=${map.pages-1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=4&typeStatus=3&approvalStatus=0">上一页</a>
+                <a href="${path}/registraionOfCases/caseRegistrationLike?page=${map.pages-1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=4&typeStatus=4&approvalStatus=0">上一页</a>
             </c:if>
             第 ${map.pages} 页&nbsp;&nbsp;&nbsp;共 ${map.nums} 页
             <c:if test="${map.pages<map.nums}">
-                <a href="${path}/registraionOfCases/caseRegistrationLike?page=${map.pages+1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=4&typeStatus=3&approvalStatus=0">下一页</a>
+                <a href="${path}/registraionOfCases/caseRegistrationLike?page=${map.pages+1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&status=4&typeStatus=4&approvalStatus=0">下一页</a>
             </c:if>
         </c:if>
         <c:if test="${map.counts==null}">

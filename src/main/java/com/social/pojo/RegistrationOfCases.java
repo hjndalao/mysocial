@@ -232,6 +232,4 @@ public class RegistrationOfCases {
 				+ ", numberOfAuditors=" + numberOfAuditors + ", auditHouseholds=" + auditHouseholds + ", amountPaid="
 				+ amountPaid + ", typeStatus=" + typeStatus + ", maxtime=" + maxtime + "]";
 	}
-    
-    
 }

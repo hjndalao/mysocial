@@ -14,7 +14,6 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring-mybatis.xml</param-value>
     </context-param>
-
     <!-- 配置spring字符编码为utf-8 -->
     <filter>
         <filter-name>encodingFilter</filter-name>

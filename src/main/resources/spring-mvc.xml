@@ -11,8 +11,7 @@
     <!--  通知spring容器通过注解的方式装配bean -->
     <context:annotation-config/>
     <!-- 配置视图解析器，可以显式设置，也可以不设置，不设置会依据SpringMVC的默认设置 -->
-    <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
@@ -23,6 +22,7 @@
     <mvc:resources location="/img/" mapping="/images/**"/>
     <mvc:resources location="/css/" mapping="/css/**"/>
     <mvc:resources location="/js/" mapping="/js/**"/>
+    <mvc:resources location="/plugins/" mapping="/plugins/**"/>
     <!-- 配置文件上传类型解析器 multipartResolver-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- 设置上传文件最大尺寸，单位为B -->

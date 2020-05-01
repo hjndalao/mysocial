@@ -48,8 +48,8 @@ public class SpecialAuditMaterialsServiceImpl implements SpecialAuditMaterialsSe
     }
 
     @Override
-    public int updateByPrimaryKey(SpecialAuditMaterials record) {
-        int status = specialAuditMaterialsMapper.updateByPrimaryKey(record);
+    public int updateByregiStrationOfCasesId(SpecialAuditMaterials record) {
+        int status = specialAuditMaterialsMapper.updateByregiStrationOfCasesId(record);
         return status;
     }
 }
