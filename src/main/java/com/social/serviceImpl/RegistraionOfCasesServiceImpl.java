@@ -50,6 +50,7 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
         //返回插入数据状态(成功 or 失败)
         return status;
     }
+
     //动态sql插入方法
     @Override
     public int insertSelective(RegistrationOfCases record) {
@@ -58,6 +59,7 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
         //返回插入数据状态(成功 or 失败)
         return status;
     }
+
     //根据主键查询数据
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
@@ -119,6 +121,13 @@ public class RegistraionOfCasesServiceImpl implements RegistraionOfCasesService 
         if ("%%".equals(organizationalCode)) organizationalCode = null;
         Integer count = registrationOfCasesMapper.caseRegistrationCount(unitName, nameOfRegistrant, organizationalCode, typeStatus, approvalStatus);
         return count;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Override
+    public List<RegistrationOfCases> selectAll() {
+        List<RegistrationOfCases> registrationOfCases = registrationOfCasesMapper.selectAll();
+        return registrationOfCases;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

@@ -122,42 +122,46 @@ public class RegistraionOfCassesController {
     public Ultimate getUltimate(Integer approvalStatus, RegistrationOfCases registrationOfCases) {
         //当立案审核通过 转至科长审核
         Ultimate ultimate = new Ultimate();
-        if (approvalStatus == 1) {
-            ultimate.setUnitName(registrationOfCases.getUnitName());
-            ultimate.setOrganizationalCode(registrationOfCases.getOrganizationalCode());
-            ultimate.setNameOfTheComplainant(registrationOfCases.getNameOfTheComplainant());
-            ultimate.setIdCard(registrationOfCases.getIdCard());
-            ultimate.setPhone(registrationOfCases.getPhone());
-            ultimate.setAccountCharacter(registrationOfCases.getAccountCharacter());
-            ultimate.setAge(registrationOfCases.getAge());
-            ultimate.setSex(registrationOfCases.getSex());
-            ultimate.setComplaintContents(registrationOfCases.getComplaintContents());
-            ultimate.setNameOfRegistrant(registrationOfCases.getNameOfRegistrant());
-            ultimate.setRegistrationTime(registrationOfCases.getRegistrationTime());
-            ultimate.setNameOfTheFiler(registrationOfCases.getNameOfTheFiler());
-            ultimate.setFilingMonth(registrationOfCases.getFilingMonth());
-            ultimate.setFilingTime(registrationOfCases.getFilingTime());
-            ultimate.setApprovalStatus(0);
-            ultimate.setWarningTime(0);
-            ultimate.setNumberOfAuditors(registrationOfCases.getNumberOfAuditors());
-            ultimate.setAuditHouseholds(registrationOfCases.getAuditHouseholds());
-            ultimate.setAmountPaid(registrationOfCases.getAmountPaid());
-            ultimate.setTypeStatus(registrationOfCases.getTypeStatus());
-        }
+        ultimate.setId(registrationOfCases.getId());
+        ultimate.setUnitName(registrationOfCases.getUnitName());
+        ultimate.setOrganizationalCode(registrationOfCases.getOrganizationalCode());
+        ultimate.setNameOfTheComplainant(registrationOfCases.getNameOfTheComplainant());
+        ultimate.setIdCard(registrationOfCases.getIdCard());
+        ultimate.setPhone(registrationOfCases.getPhone());
+        ultimate.setAccountCharacter(registrationOfCases.getAccountCharacter());
+        ultimate.setAge(registrationOfCases.getAge());
+        ultimate.setSex(registrationOfCases.getSex());
+        ultimate.setComplaintContents(registrationOfCases.getComplaintContents());
+        ultimate.setNameOfRegistrant(registrationOfCases.getNameOfRegistrant());
+        ultimate.setRegistrationTime(registrationOfCases.getRegistrationTime());
+        ultimate.setNameOfTheFiler(registrationOfCases.getNameOfTheFiler());
+        ultimate.setFilingMonth(registrationOfCases.getFilingMonth());
+        ultimate.setFilingTime(registrationOfCases.getFilingTime());
+        ultimate.setApprovalStatus(0);
+        ultimate.setWarningTime(0);
+        ultimate.setNumberOfAuditors(registrationOfCases.getNumberOfAuditors());
+        ultimate.setAuditHouseholds(registrationOfCases.getAuditHouseholds());
+        ultimate.setAmountPaid(registrationOfCases.getAmountPaid());
+        ultimate.setTypeStatus(registrationOfCases.getTypeStatus());
         return ultimate;
     }
 
     //案件修改状态
     @RequestMapping("updateStatus")
     @ResponseBody
-    public String updateStatus(Integer approvalStatus, Integer typeStatus, Integer id) {
+    public String updateStatus(RegistrationOfCases registrationOfCases) {
+        //id
+        Integer id = registrationOfCases.getId();
+        if (registrationOfCases.getWarningTime() == null) registrationOfCases.setWarningTime(1);
         //立案审批通过
-        registraionOfCasesService.updateStatus(approvalStatus, typeStatus, id);
+        registraionOfCasesService.updateByPrimaryKeySelective(registrationOfCases);
         //根据主键id查询
-        RegistrationOfCases registrationOfCases = registraionOfCasesService.selectByPrimaryKey(id);
-        //添加科长审批数据
-        Ultimate ultimate = getUltimate(approvalStatus, registrationOfCases);
-        ultimates.insertSelective(ultimate);
+        RegistrationOfCases registrationOfCasess = registraionOfCasesService.selectByPrimaryKey(registrationOfCases.getId());
+        if (registrationOfCases.getApprovalStatus() == 1) {
+            //添加科长审批数据
+            Ultimate ultimate = getUltimate(registrationOfCases.getApprovalStatus(), registrationOfCasess);
+            ultimates.insertSelective(ultimate);
+        }
         return JSON.toJSONString(id);
     }
 

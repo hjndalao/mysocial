@@ -18,6 +18,12 @@ public class UltimateServiceImpl implements UltimateService {
     private UltimateMapper ultimateMapper;
 
     @Override
+    public List<Ultimate> selectAll() {
+        List<Ultimate> ultimates = ultimateMapper.selectAll();
+        return ultimates;
+    }
+
+    @Override
     public int deleteByPrimaryKey(Integer id) {
         int status = ultimateMapper.deleteByPrimaryKey(id);
         return status;
@@ -76,8 +82,9 @@ public class UltimateServiceImpl implements UltimateService {
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Ultimate record) {
-        int status = ultimateMapper.updateByPrimaryKeySelective(record);
+    public int updateByPrimaryKeySelective(Ultimate ultimate) {
+        if (ultimate.getMaxtime() == null) ultimate.setMaxtime(5);
+        int status = ultimateMapper.updateByPrimaryKeySelective(ultimate);
         return status;
     }
 

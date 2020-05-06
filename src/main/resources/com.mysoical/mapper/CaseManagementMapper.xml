@@ -1,82 +1,105 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.social.dao.CaseManagementMapper" >
-  <resultMap id="BaseResultMap" type="com.social.pojo.CaseManagement" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="registration_of_cases_id" property="registrationOfCasesId" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="service_time" property="serviceTime" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.social.dao.CaseManagementMapper">
+    <resultMap id="BaseResultMap" type="com.social.pojo.CaseManagement">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="registration_of_cases_id" property="registrationOfCasesId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="service_time" property="servicetime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, registration_of_cases_id, status, service_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from case_management
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+    <update id="updateByRegistrationOfCasesId" parameterType="com.social.pojo.CaseManagement">
+        update case_management
+        <set>
+            <if test="registrationOfCasesId != null">
+                registration_of_cases_id = #{registrationOfCasesId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="servicetime != null">
+                service_time = #{servicetime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where registration_of_cases_id = #{registrationOfCasesId,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByRegistrationOfCasesId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from case_management
+        where registration_of_cases_id = #{registrationOfCasesId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from case_management
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from case_management
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.social.pojo.CaseManagement" >
+    <insert id="insert" parameterType="com.social.pojo.CaseManagement">
     insert into case_management (id, registration_of_cases_id, status, 
       service_time)
     values (#{id,jdbcType=INTEGER}, #{registrationOfCasesId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{serviceTime,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.social.pojo.CaseManagement" >
-    insert into case_management
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="registrationOfCasesId != null" >
-        registration_of_cases_id,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="serviceTime != null" >
-        service_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="registrationOfCasesId != null" >
-        #{registrationOfCasesId,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="serviceTime != null" >
-        #{serviceTime,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.social.pojo.CaseManagement" >
-    update case_management
-    <set >
-      <if test="registrationOfCasesId != null" >
-        registration_of_cases_id = #{registrationOfCasesId,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="serviceTime != null" >
-        service_time = #{serviceTime,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.social.pojo.CaseManagement" >
+    <insert id="insertSelective" parameterType="com.social.pojo.CaseManagement">
+        insert into case_management
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="registrationOfCasesId != null">
+                registration_of_cases_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="servicetime != null">
+                service_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="registrationOfCasesId != null">
+                #{registrationOfCasesId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="serviceTime != null">
+                #{serviceTime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.social.pojo.CaseManagement">
+        update case_management
+        <set>
+            <if test="registrationOfCasesId != null">
+                registration_of_cases_id = #{registrationOfCasesId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="servicetime != null">
+                service_time = #{serviceTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.social.pojo.CaseManagement">
     update case_management
     set registration_of_cases_id = #{registrationOfCasesId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      service_time = #{serviceTime,jdbcType=VARCHAR}
+      service_time = #{servicetime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

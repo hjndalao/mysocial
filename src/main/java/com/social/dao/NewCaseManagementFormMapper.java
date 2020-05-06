@@ -1,6 +1,9 @@
 package com.social.dao;
 
 import com.social.pojo.NewCaseManagementForm;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface NewCaseManagementFormMapper {
     int deleteByPrimaryKey(Integer id);
@@ -11,7 +14,11 @@ public interface NewCaseManagementFormMapper {
 
     NewCaseManagementForm selectByPrimaryKey(Integer id);
 
+    List<NewCaseManagementForm> selectByRegistrationOfCasesId(Integer registrationOfCasesId);
+
     int updateByPrimaryKeySelective(NewCaseManagementForm record);
+
+    int updateByRegistrationOfCasesIdSelective(@Param("registrationOfCasesId") Integer registrationOfCasesId,@Param("serviceTime") String serviceTime);
 
     int updateByPrimaryKey(NewCaseManagementForm record);
 }

@@ -12,6 +12,7 @@ public interface ChangesService {
 
     Changes selectByPrimaryKey(Integer id);
 
+
     int updateByPrimaryKeySelective(Changes record);
 
     int updateByPrimaryKey(Changes record);

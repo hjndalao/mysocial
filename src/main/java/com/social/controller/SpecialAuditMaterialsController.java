@@ -2,14 +2,17 @@ package com.social.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.social.pojo.SpecialAuditMaterials;
+import com.social.service.AuditNcmFormService;
 import com.social.service.RegistraionOfCasesService;
 import com.social.service.SpecialAuditMaterialsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -23,13 +26,14 @@ public class SpecialAuditMaterialsController {
     private SpecialAuditMaterialsService specialAuditMaterialsService;
     @Autowired
     private RegistraionOfCasesService registraionOfCases;
+    @Autowired
+    private AuditNcmFormService auditNcmForm;
 
     @RequestMapping("upload")
     @ResponseBody
     //日常审计上传文件
-    public String upload(HttpSession session, Integer id, MultipartFile file, Integer typeStatus) throws Exception {
+    public String upload(HttpSession session, Integer id, MultipartFile file, Integer typeStatus, Integer statuss) throws Exception {
         if (typeStatus == null) typeStatus = 3;
-        System.out.println(typeStatus);
         //当id不为null时执行
         if (id != null) session.setAttribute("id", id);
         //获取文件上传路径
@@ -46,7 +50,7 @@ public class SpecialAuditMaterialsController {
             //随机数
             double v = Math.random() * 100;
             //时间戳
-            String yyyyMMddHH = new SimpleDateFormat("yyyyMMddHH").format(new Date());
+            String yyyyMMddHH = new SimpleDateFormat("yyyy-MM-dd-HH").format(new Date());
             //设置文件上传路径并将文件名设置进去
             file.transferTo(new File(files, (int) v + yyyyMMddHH + file.getOriginalFilename()));
             //获取id
@@ -54,6 +58,7 @@ public class SpecialAuditMaterialsController {
             session.setAttribute("state", 1);
             //根据id查询数据
             SpecialAuditMaterials specialAuditMaterialss = specialAuditMaterialsService.selectByRegistrationOfCasesId(ids);
+            System.out.println("id:" + ids);
             //当查询出来的数据等于null的时候插入数据
             if (specialAuditMaterialss == null) {
                 SpecialAuditMaterials specialAuditMaterials = getSpecialAuditMaterials(ids, v, yyyyMMddHH, file);
@@ -61,12 +66,18 @@ public class SpecialAuditMaterialsController {
                 status = specialAuditMaterialsService.insert(specialAuditMaterials);
                 //上传材料成功修改状态
                 registraionOfCases.updateStatus(0, typeStatus, ids);
+                if (statuss != null && statuss == 0) {
+                    auditNcmForm.updateByRegistrationOfCasesIdSelective(ids, 1,null);
+                }
             } else {
                 SpecialAuditMaterials specialAuditMaterials = getSpecialAuditMaterials(ids, v, yyyyMMddHH, file);
                 //当查询出来的数据不等于null的时候修改数据
                 status = specialAuditMaterialsService.updateByregiStrationOfCasesId(specialAuditMaterials);
                 //上传材料成功修改状态
                 registraionOfCases.updateStatus(0, typeStatus, ids);
+                if (statuss != null && statuss == 0) {
+                    auditNcmForm.updateByRegistrationOfCasesIdSelective(ids, 1,null);
+                }
             }
         }
         return JSON.toJSONString(status);

@@ -48,7 +48,6 @@
                     $("#phone").val(data.phone);
                     $("#name_of_registrant").val(data.nameOfRegistrant);
                     $("#account_character").val(data.accountCharacter);
-                    $("#maxTime").val(data.maxtime);
                     $("#sex").val(data.sex);
                     $("#name_of_the_filer").val(data.nameOfTheFiler);
                     $("#filing_month").val(data.filingMonth);
@@ -57,9 +56,19 @@
                     $("#audit_households").val(data.auditHouseholds);
                     $("#amount_paid").val(data.amountPaid);
                     $("#filing_time").val(data.filingTime);
+                    $.ajax({
+                        url: "${path}/NewCaseManagementForm/selectByRegistrationOfCasesId",
+                        type: "post",
+                        dataType: "json",
+                        data: "registrationOfCasesId=" + data.id,
+                        success: function (data) {
+                            $("#serviceTime").val(data[0].serviceTime);
+                        }
+                    })
                 }
             })
         }
+
         function query() {
             $.ajax({
                 url: "${pageContext.request.contextPath}/ultimate/selectByPage",
@@ -70,6 +79,7 @@
                 }
             })
         }
+
         function updateBySave() {
             var id = $("#id").val();
             var name = $("#unitName").val();
@@ -81,7 +91,7 @@
             var name_of_registrant = $("#name_of_registrant").val();
             var account_character = $("#account_character").val();
             var age = $("#age").val();
-            var maxTime = $("#maxTime").val();
+            var serviceTime = $("#serviceTime").val();
             var name_of_the_filer = $("#name_of_the_filer").val();
             var filing_month = $("#filing_month").val();
             var complaint_contents = $("#complaint_contents").val();
@@ -100,7 +110,6 @@
                 "nameOfRegistrant": name_of_registrant,
                 "accountCharacter": account_character,
                 "age": age,
-                "maxtime": maxTime,
                 "nameOfTheFiler": name_of_the_filer,
                 "filingMonth": filing_month,
                 "complaintContents": complaint_contents,
@@ -109,17 +118,30 @@
                 "amountPaid": amountPaid,
                 "filingTime": filingTime
             };
-            console.log(updateData);
+            if (serviceTime == "" || serviceTime == null) {
+                alert("请输入送达时间");
+                return;
+            }
             $.ajax({
                 url: "${path}/ultimate/update",
                 data: updateData,
                 type: "post",
-                dataType:"text",
+                dataType: "text",
                 success: function () {
-                    query();
+                    $.ajax({
+                        url: "${path}/NewCaseManagementForm/update",
+                        data: "registrationOfCasesId=" + id + "&serviceTime=" + serviceTime,
+                        type: "post",
+                        dataType: "json",
+                        success: function (status) {
+                            console.log(status);
+                            query();
+                        }
+                    });
                 }
             });
         }
+
         function select() {
             var name = $("#unitName1").val();
             var organizational_code = $("#organizationalCode1").val();
@@ -216,8 +238,14 @@
                     </td>
                     <td>${d.nameOfTheFiler}</td>
                     <td>${d.complaintContents}</td>
-                    <td><span style="color:red;">已经超过5个工作日，通知书仍未送达</span>
+                    <td>
                         <!-- ng-if="pojo.registrationOfCases.warningTime>5" -->
+                        <c:if test="${d.warningTime>=6}">
+                            <span style="color:red;">已经超过5个工作日，通知书仍未送达</span>
+                        </c:if>
+                        <c:if test="${d.warningTime<=5||d.warningTime==null}">
+                            <span style="color:cadetblue;">正常</span>
+                        </c:if>
                     </td>
                     <td class="text-center"><%--ng-click="findOne(pojo.id)"--%>
                         <button type="button" onblur="selectById(${d.id})" class="btn bg-olive btn-xs"
@@ -325,7 +353,7 @@
                                 <option value="1">女</option>
                             </select></td>
                         <td>送达时间:</td>
-                        <td><input ng-model="entity.serviceTime" class="form-control" id="maxTime"
+                        <td><input ng-model="entity.serviceTime" class="form-control" id="serviceTime"
                                    placeholder="送达时间"></td>
                         <td>审计人数:</td>
                         <td><input ng-model="entity.numberOfAuditors" id="number_of_auditors"

@@ -225,7 +225,7 @@
                         <c:if test="${ds.warningTime>7}">
                             <span style="color:red;">已经超过7个工作日，仍未进行立案审批</span>
                         </c:if>
-                        <c:if test="${ds.warningTime<7||ds.warningTime==null}">
+                        <c:if test="${ds.warningTime<=7||ds.warningTime==null}">
                             <span style="color:cadetblue;">正常</span>
                         </c:if>
                     </td>

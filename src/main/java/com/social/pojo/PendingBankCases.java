@@ -1,5 +1,12 @@
 package com.social.pojo;
 
+import lombok.*;
+
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class PendingBankCases {
     private Integer id;
 
@@ -13,51 +20,4 @@ public class PendingBankCases {
 
     private String time;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getRegistrationOfCasesId() {
-        return registrationOfCasesId;
-    }
-
-    public void setRegistrationOfCasesId(Integer registrationOfCasesId) {
-        this.registrationOfCasesId = registrationOfCasesId;
-    }
-
-    public String getPdTime() {
-        return pdTime;
-    }
-
-    public void setPdTime(String pdTime) {
-        this.pdTime = pdTime == null ? null : pdTime.trim();
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public Integer getHaveMoney() {
-        return haveMoney;
-    }
-
-    public void setHaveMoney(Integer haveMoney) {
-        this.haveMoney = haveMoney;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time == null ? null : time.trim();
-    }
 }

@@ -6,7 +6,7 @@
     <!-- 定义数据源Bean -->
     <!-- Druid -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="url" value="jdbc:mysql://localhost:3306/social?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/social?useUnicode=true&amp;useSSL=false&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC"/>
         <property name="username" value="root"/>
         <property name="password" value="root"/>
     </bean>
@@ -24,6 +24,4 @@
         <property name="basePackage" value="com.social.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
-    <!--引入定时任务-->
-    <import resource="spring-scheduled.xml"/>
 </beans>

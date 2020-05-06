@@ -1,8 +1,9 @@
-package com.social.dao;
+package com.social.service;
 
 import com.social.pojo.CaseManagement;
 
-public interface CaseManagementMapper {
+public interface CaseManagementService {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(CaseManagement record);
@@ -13,9 +14,9 @@ public interface CaseManagementMapper {
 
     CaseManagement selectByRegistrationOfCasesId(Integer id);
 
-    int updateByPrimaryKeySelective(CaseManagement record);
-
     int updateByRegistrationOfCasesId(CaseManagement record);
+
+    int updateByPrimaryKeySelective(CaseManagement record);
 
     int updateByPrimaryKey(CaseManagement record);
 }

@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.social.dao.RegistrationOfCasesMapper">
 
+    <resultMap id="ResultMap" type="com.social.pojo.RegistrationOfCases">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
+        <result column="warning_time" property="warningTime" jdbcType="INTEGER"/>
+        <result column="approval_status" property="approvalStatus" jdbcType="INTEGER"/>
+        <result column="type_status" property="typeStatus" jdbcType="INTEGER"/>
+    </resultMap>
+
     <resultMap id="BaseResultMap" type="com.social.pojo.RegistrationOfCases">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
@@ -38,12 +46,16 @@
   unit_name,organizational_code,name_of_registrant,registration_time,account_character,name_of_the_complainant,
   phone,complaint_contents
   </sql>
-
+    <!--根据主键查询-->
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from registration_of_cases
         where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!--查所有-->
+    <select id="selectAll" resultMap="ResultMap">
+        select id,unit_name,warning_time,approval_status,type_status from registration_of_cases
     </select>
     <!--
     approval_status 审批状态 (0：提交未审批，1：审批通过，2：审批未通过，3：结案归档,4:立案未提交);

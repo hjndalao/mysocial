@@ -248,12 +248,11 @@
 
         function updateStatus(id) {
             if (confirm("提交后不允许修改，您确定要执行此操作吗?")) {
-                console.log(id, status);
                 $.ajax({
                     url: "${path}/registraionOfCases/updateStatus",
                     data: "id=" + id + "&approvalStatus=0&typeStatus=2",
                     type: "post",
-                    dataType: "text",
+                    dataType: "json",
                     success: function () {
                         //调用查询方法
                         query();

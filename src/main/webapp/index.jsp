@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -20,12 +20,12 @@
     <link rel="stylesheet" href="${path}/plugins/angularjs/toaster.min.css">
     <script src="${path}/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="${path}/plugins/bootstrap/js/bootstrap.min.js"></script>
-<%--    <script type="text/javascript" src="${path}/plugins/angularjs/angular.min.js"></script>
-    <script type="text/javascript" src="${path}/plugins/angularjs/angular-animate.min.js"></script>
-    <script type="text/javascript" src="${path}/plugins/angularjs/toaster.min.js"></script>
-    <script type="text/javascript" src="${path}/js/base.js"></script>
-    <script type="text/javascript" src="${path}/js/service/loginService.js"></script>
-    <script type="text/javascript" src="${path}/js/controller/loginController.js"></script>--%>
+    <%--    <script type="text/javascript" src="${path}/plugins/angularjs/angular.min.js"></script>
+        <script type="text/javascript" src="${path}/plugins/angularjs/angular-animate.min.js"></script>
+        <script type="text/javascript" src="${path}/plugins/angularjs/toaster.min.js"></script>
+        <script type="text/javascript" src="${path}/js/base.js"></script>
+        <script type="text/javascript" src="${path}/js/service/loginService.js"></script>
+        <script type="text/javascript" src="${path}/js/controller/loginController.js"></script>--%>
     <script src="${path}/plugins/adminLTE/js/app.min.js"></script>
     <script type="text/javascript">
         function SetIFrameHeight() {
@@ -91,8 +91,11 @@
             </div>
             <ul class="sidebar-menu">
                 <li class="header">菜单</li>
-                <li id="admin-index"><a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&status=2"><i class="fa fa-dashboard"></i> <span>首页</span></a></li>
-                <li class="treeview"  ng-if="true"><!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
+                <li id="admin-index"><a
+                        href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&status=2"><i
+                        class="fa fa-dashboard"></i> <span>首页</span></a></li>
+                <li class="treeview" ng-if="true">
+                    <!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
                     <a href="111">
                         <i class="fa fa-folder"></i>
                         <span>来案登记</span>
@@ -102,34 +105,40 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-login">
-                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&status=2&typeStatus=1&approvalStatus=4" target="iframe">
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&status=2&typeStatus=1&approvalStatus=4"
+                               target="iframe">
                                 <i class="fa fa-circle-o"></i> 案件登记&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                         <li id="admin-login1">
-                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=2&approvalStatus=0&status=1" target="iframe">
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=2&approvalStatus=0&status=1"
+                               target="iframe">
                                 <i class="fa fa-circle-o"></i> 日常审计&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                         <li id="admin-login2">
-                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=3&approvalStatus=0&status=3" target="iframe">
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=3&approvalStatus=0&status=3"
+                               target="iframe">
                                 <i class="fa fa-circle-o"></i> 专项审计&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                         <li id="admin-login3">
-                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=4&approvalStatus=0&status=4" target="iframe">
+                            <a href="${pageContext.request.contextPath}/registraionOfCases/caseRegistrationPage?page=1&pageNum=5&typeStatus=4&approvalStatus=0&status=4"
+                               target="iframe">
                                 <i class="fa fa-circle-o"></i> 立案审批&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
-                        <li id="admin-login4" ng-if="true" ><!-- ng-if="isInArray(rolenames,'KEZHANG')" -->
-                            <a href="${pageContext.request.contextPath}/ultimate/selectByPage?page=1&pageNum=5&typeStatus=5&approvalStatus=0&status=5" target="iframe">
+                        <li id="admin-login4" ng-if="true"><!-- ng-if="isInArray(rolenames,'KEZHANG')" -->
+                            <a href="${pageContext.request.contextPath}/ultimate/selectByPage?page=1&pageNum=5&typeStatus=5&approvalStatus=0&status=5"
+                               target="iframe">
                                 <i class="fa fa-circle-o"></i> 科长审核&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                     </ul>
                 </li>
                 <!-- 菜单 -->
-                <li class="treeview" ng-if="true"><!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
+                <li class="treeview" ng-if="true">
+                    <!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>新立案件管理</span>
@@ -139,13 +148,14 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-login5">
-                            <a href="${pageContext.request.contextPath}/ultimate/selectByPage?page=1&pageNum=5&typeStatus=5&approvalStatus=1&status=6" target="iframe">
+                            <a href="${pageContext.request.contextPath}/ultimate/selectByPage?page=1&pageNum=5&typeStatus=5&approvalStatus=1&status=6"
+                               target="iframe">
                                 <i class="fa fa-circle-o"></i> 新立案件管理&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="treeview" ng-if="true" ><!-- ng-if="isInArray(rolenames,'KEZHANG')" -->
+                <li class="treeview" ng-if="true"><!-- ng-if="isInArray(rolenames,'KEZHANG')" -->
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>已发送稽核通知案件管理</span>
@@ -155,13 +165,15 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-login6">
-                            <a href="audit_ncm_form.jsp" target="iframe">
-                                <i class="fa fa-circle-o"></i> 已发送稽核通知案件管理
+                            <a href="${pageContext.request.contextPath}/ultimate/selectByPage?page=1&pageNum=5&typeStatus=6&approvalStatus=1&status=7"
+                               target="iframe">
+                                <i class="fa fa-circle-o"></i> 已发送稽核通知案件管理&nbsp;&nbsp;(功能完成)
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="treeview" ng-if="true" ><!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
+                <li class="treeview" ng-if="true">
+                    <!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>已核定缴费基数案件管理</span>
@@ -171,13 +183,14 @@
                     </a>
                     <ul class="treeview-menu">
                         <li id="admin-login12">
-                            <a href="case_management.jsp" target="iframe">
+                            <a href="${pageContext.request.contextPath}/ultimate/selectByPage?page=1&pageNum=5&typeStatus=7&approvalStatus=3&status=8" target="iframe">
                                 <i class="fa fa-circle-o"></i> 已核定缴费基数案件管理
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="treeview" ng-if="true" ><!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
+                <li class="treeview" ng-if="true">
+                    <!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>已发送补缴通知案件管理</span>
@@ -193,7 +206,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview" ng-if="true" ><!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
+                <li class="treeview" ng-if="true">
+                    <!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>待查银行案件管理</span>
@@ -209,7 +223,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview" ng-if="true" ><!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
+                <li class="treeview" ng-if="true">
+                    <!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')" -->
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>强制执行案件管理</span>
@@ -225,7 +240,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="treeview" ng-if="true" ><!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')||isInArray(rolenames,'ZHUREN')||isInArray(rolenames,'BANGONGSHICAOZUO')" -->
+                <li class="treeview" ng-if="true">
+                    <!-- ng-if="isInArray(rolenames,'KEZHANG')||isInArray(rolenames,'KESHICAOZUO')||isInArray(rolenames,'ZHUREN')||isInArray(rolenames,'BANGONGSHICAOZUO')" -->
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>历史档案管理</span>
@@ -234,14 +250,14 @@
 				   		 	</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li id="admin-login10" >
+                        <li id="admin-login10">
                             <a href="registrationOfCases01.jsp" target="iframe">
                                 <i class="fa fa-circle-o"></i> 查询统计已结案归档案件
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="treeview" ng-if="true" ><!-- ng-if="isInArray(rolenames,'ADMIN')" -->
+                <li class="treeview" ng-if="true"><!-- ng-if="isInArray(rolenames,'ADMIN')" -->
                     <a href="#">
                         <i class="fa fa-folder"></i>
                         <span>系统管理</span>
@@ -249,23 +265,23 @@
 				       			<i class="fa fa-angle-left pull-right"></i>
 				   		 	</span>
                     </a>
-                    <ul class="treeview-menu" >
-                        <li id="admin-login11"  >
+                    <ul class="treeview-menu">
+                        <li id="admin-login11">
                             <a href="user-Administration.jsp" target="iframe">
                                 <i class="fa fa-circle-o"></i> 用户管理
                             </a>
                         </li>
-                        <li >
+                        <li>
                             <a href="organ-Administration.jsp" target="iframe">
                                 <i class="fa fa-circle-o"></i> 机构管理
                             </a>
                         </li>
-                        <li >
+                        <li>
                             <a href="authorization-Administration.jsp" target="iframe">
                                 <i class="fa fa-circle-o"></i> 用户权限管理
                             </a>
                         </li>
-                        <li >
+                        <li>
                             <a href="database-Administration.jsp" target="iframe">
                                 <i class="fa fa-circle-o"></i> 数据库管理
                             </a>

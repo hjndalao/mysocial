@@ -51,5 +51,5 @@ public class Ultimate {
 
     private Integer typeStatus;
 
-    private String maxtime;
+    private Integer maxtime;
 }

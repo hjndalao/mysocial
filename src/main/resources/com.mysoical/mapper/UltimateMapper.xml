@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.social.dao.UltimateMapper">
+    <resultMap id="ResultMap" type="com.social.pojo.Ultimate">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
+        <result column="warning_time" property="warningTime" jdbcType="INTEGER"/>
+        <result column="approval_status" property="approvalStatus" jdbcType="INTEGER"/>
+        <result column="type_status" property="typeStatus" jdbcType="INTEGER"/>
+    </resultMap>
+
     <resultMap id="BaseResultMap" type="com.social.pojo.Ultimate">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
@@ -37,7 +45,10 @@
         from ultimate
         where id = #{id,jdbcType=INTEGER}
     </select>
-
+    <!--查所有-->
+    <select id="selectAll" resultMap="ResultMap">
+        select id,unit_name,warning_time,type_status,approval_status from ultimate
+    </select>
     <select id="ultimateSelectPage" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

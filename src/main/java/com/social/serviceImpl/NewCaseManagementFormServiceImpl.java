@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class NewCaseManagementFormServiceImpl implements NewCaseManagementFormService {
@@ -40,8 +42,20 @@ public class NewCaseManagementFormServiceImpl implements NewCaseManagementFormSe
     }
 
     @Override
+    public List<NewCaseManagementForm> selectByRegistrationOfCasesId(Integer registrationOfCasesId) {
+        List<NewCaseManagementForm> newCaseManagementForms = newCaseManagementForm.selectByRegistrationOfCasesId(registrationOfCasesId);
+        return newCaseManagementForms;
+    }
+
+    @Override
     public int updateByPrimaryKeySelective(NewCaseManagementForm record) {
         int status = newCaseManagementForm.updateByPrimaryKeySelective(record);
+        return status;
+    }
+
+    @Override
+    public int updateByRegistrationOfCasesIdSelective(Integer registrationOfCasesId, String serviceTime) {
+        int status = newCaseManagementForm.updateByRegistrationOfCasesIdSelective(registrationOfCasesId, serviceTime);
         return status;
     }
 

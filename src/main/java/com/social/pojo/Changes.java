@@ -1,5 +1,12 @@
 package com.social.pojo;
 
+import lombok.*;
+
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Changes {
     private Integer id;
 
@@ -7,27 +14,4 @@ public class Changes {
 
     private String operationContent;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getChangeOperator() {
-        return changeOperator;
-    }
-
-    public void setChangeOperator(String changeOperator) {
-        this.changeOperator = changeOperator == null ? null : changeOperator.trim();
-    }
-
-    public String getOperationContent() {
-        return operationContent;
-    }
-
-    public void setOperationContent(String operationContent) {
-        this.operationContent = operationContent == null ? null : operationContent.trim();
-    }
 }

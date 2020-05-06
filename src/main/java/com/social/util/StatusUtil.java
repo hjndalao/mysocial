@@ -31,7 +31,12 @@ public class StatusUtil {
             return "redirect:/registrationOfCases02.jsp";
         } else if (status == 6) {
             return "redirect:/new_case_management_form.jsp";
-        } else
+        } else if (status == 7) {
+            return "redirect:/audit_ncm_form.jsp";
+        } else if (status == 8) {
+            return "redirect:/case_management.jsp";
+        } else {
             return "";
+        }
     }
 }

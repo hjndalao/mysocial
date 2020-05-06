@@ -1,11 +1,12 @@
-package com.social.dao;
+package com.social.service;
 
 import com.social.pojo.AuditNcmForm;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface AuditNcmFormMapper {
+public interface AuditNcmFormService {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(AuditNcmForm record);
@@ -14,13 +15,13 @@ public interface AuditNcmFormMapper {
 
     AuditNcmForm selectByPrimaryKey(Integer id);
 
-    int updateByRegistrationOfCasesIdSelective(@Param("registrationOfCasesId") Integer registrationOfCasesId, @Param("state") Integer state, @Param("baseOfPayment") Integer baseOfPayment);
-
-    AuditNcmForm selectByRegistrationOfCasesId(Integer registrationOfCasesId);
+    AuditNcmForm  selectByRegistrationOfCasesId(Integer registrationOfCasesId);
 
     List<AuditNcmForm> selectAll();
 
     int updateByPrimaryKeySelective(AuditNcmForm record);
+
+    int updateByRegistrationOfCasesIdSelective(Integer registrationOfCasesId, Integer state,Integer baseOfPayment);
 
     int updateByPrimaryKey(AuditNcmForm record);
 }

@@ -54,7 +54,13 @@ public class UltimateController {
         session.setAttribute("map", map);
         //存入分页后的数据
         session.setAttribute("data", registrationOfCases);
-        return StatusUtil.statusYe(status);
+        if (status == 7) {
+            System.out.println("跳转");
+            return "redirect:/AuditNcmFormController/selectAll";
+        }else {
+            System.out.println("没跳转");
+            return StatusUtil.statusYe(status);
+        }
     }
 
     @RequestMapping("selectByLike")
@@ -72,7 +78,6 @@ public class UltimateController {
         Integer num = util.get("pageNum");
         Integer remaining_pages = util.get("remaining_pages");
         Integer counts = util.get("count");
-        System.out.println(counts);
         //分页数据
         List<RegistrationOfCases> registrationOfCasess = ultimateService.ultimateSelectLike("%" + unitName + "%", "%" + nameOfRegistrant + "%", "%" + organizationalCode + "%", status1, status2, pages, num);
         //模糊查询
@@ -108,11 +113,10 @@ public class UltimateController {
             //审核通过
             ultimateService.updateStatus(approvalStatus, typeStatus, id);
             NewCaseManagementForm newCaseManagementForm = new NewCaseManagementForm();
-            String yyyyMMddHH = new SimpleDateFormat("yyyyMMddHH").format(new Date());
             Integer state = (Integer) session.getAttribute("state");
             newCaseManagementForm.setRegistrationOfCasesId(id);
+            if (newCaseManagementForm.getState() == null) newCaseManagementForm.setState(0);
             newCaseManagementForm.setState(state);
-            newCaseManagementForm.setServiceTime(yyyyMMddHH);
             this.newCaseManagementForm.insertSelective(newCaseManagementForm);
         } else if (approvalStatus == 2) {
             //审核不通过
@@ -125,8 +129,8 @@ public class UltimateController {
     @RequestMapping("update")
     @ResponseBody
     public String update(Ultimate ultimate) {
-        System.out.println(ultimate);
         int status = ultimateService.updateByPrimaryKeySelective(ultimate);
+
         return JSON.toJSONString(status);
     }
 }

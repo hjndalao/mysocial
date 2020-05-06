@@ -16,6 +16,8 @@ public interface UltimateMapper {
 
     Ultimate selectByPrimaryKey(Integer id);
 
+    List<Ultimate> selectAll();
+
     //科长审核分页查询
     List<RegistrationOfCases> ultimateSelectPage(@Param("typeStatus") Integer typeStatus, @Param("approvalStatus") Integer approvalStatus, @Param("page") Integer page, @Param("pageNum") Integer pageNum);
 
@@ -26,7 +28,7 @@ public interface UltimateMapper {
     List<RegistrationOfCases> ultimateSelectLike(@Param("unitName") String unitName, @Param("nameOfRegistrant") String nameOfRegistrant, @Param("organizationalCode") String organizationalCode, @Param("typeStatus") Integer typeStatus, @Param("approvalStatus") Integer approvalStatus, @Param("page") Integer page, @Param("pageNum") Integer pageNUm);
 
     //科长审核修改状态
-    int updateStatus(@Param("approvalStatus") Integer approvalStatus,@Param("typeStatus") Integer typeStatus,@Param("id") Integer id);
+    int updateStatus(@Param("approvalStatus") Integer approvalStatus, @Param("typeStatus") Integer typeStatus, @Param("id") Integer id);
 
     int updateByPrimaryKeySelective(Ultimate record);
 

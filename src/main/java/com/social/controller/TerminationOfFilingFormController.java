@@ -20,16 +20,12 @@ public class TerminationOfFilingFormController {
     @ResponseBody
     public String insertOrUpdate(TerminationOfFilingForm terminationOfFilingForm, HttpSession session) {
         Integer ids = (Integer) session.getAttribute("ids");
-        System.out.println("ids:" + ids);
         TerminationOfFilingForm terminationOfFilingForm1 = terminationOfFilingFormService.selectByPrimaryKey(ids);
-        System.out.println(terminationOfFilingForm1);
         int status = 0;
         if (terminationOfFilingForm1 == null) {
             status = terminationOfFilingFormService.insert(terminationOfFilingForm);
-            System.out.println("添加状态:" + status);
         } else {
             status = terminationOfFilingFormService.updateByRegistrationOfCasesId(terminationOfFilingForm);
-            System.out.println("修改状态:" + status);
         }
         return JSON.toJSONString(status);
     }

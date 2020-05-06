@@ -1,5 +1,12 @@
 package com.social.pojo;
 
+import lombok.*;
+
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Organization {
     private Integer id;
 
@@ -7,27 +14,4 @@ public class Organization {
 
     private Integer higherAuthoritiesId;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName == null ? null : departmentName.trim();
-    }
-
-    public Integer getHigherAuthoritiesId() {
-        return higherAuthoritiesId;
-    }
-
-    public void setHigherAuthoritiesId(Integer higherAuthoritiesId) {
-        this.higherAuthoritiesId = higherAuthoritiesId;
-    }
 }
