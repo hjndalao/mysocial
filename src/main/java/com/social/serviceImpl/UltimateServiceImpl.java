@@ -83,6 +83,7 @@ public class UltimateServiceImpl implements UltimateService {
 
     @Override
     public int updateByPrimaryKeySelective(Ultimate ultimate) {
+        if (ultimate.getWarningTime() == null) ultimate.setWarningTime(1);
         if (ultimate.getMaxtime() == null) ultimate.setMaxtime(5);
         int status = ultimateMapper.updateByPrimaryKeySelective(ultimate);
         return status;

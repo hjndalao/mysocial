@@ -47,12 +47,23 @@
     </select>
     <!--查所有-->
     <select id="selectAll" resultMap="ResultMap">
-        select id,unit_name,warning_time,type_status,approval_status from ultimate
+        select
+        <include refid="Base_Column_List"/>
+        from ultimate
     </select>
+
     <select id="ultimateSelectPage" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from ultimate where type_status=#{typeStatus} and approval_status=#{approvalStatus}
+        from ultimate
+        <where>
+            <if test="typeStatus!=null">
+                type_status=#{typeStatus}
+            </if>
+            <if test="approvalStatus!=null">
+                and approval_status=#{approvalStatus}
+            </if>
+        </where>
         limit ${(page-1)*pageNum},#{pageNum}
     </select>
 
@@ -68,7 +79,12 @@
             <if test="organizationalCode!=null">
                 and organizational_code like #{organizationalCode}
             </if>
-            and type_status=#{typeStatus} and approval_status=#{approvalStatus}
+            <if test="typeStatus!=null">
+                and type_status=#{typeStatus}
+            </if>
+            <if test="approvalStatus!=null">
+                and approval_status=#{approvalStatus}
+            </if>
         </where>
     </select>
 
@@ -86,7 +102,12 @@
             <if test="organizationalCode!=null">
                 and organizational_code like #{organizationalCode}
             </if>
-            and type_status=#{typeStatus} and approval_status=#{approvalStatus}
+            <if test="typeStatus!=null">
+                and type_status=#{typeStatus}
+            </if>
+            <if test="approvalStatus!=null">
+                and approval_status=#{approvalStatus}
+            </if>
         </where>
         limit ${(page-1)*pageNum},#{pageNum}
     </select>

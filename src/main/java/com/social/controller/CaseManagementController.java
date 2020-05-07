@@ -2,7 +2,10 @@ package com.social.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.social.pojo.CaseManagement;
+import com.social.pojo.Ultimate;
 import com.social.service.CaseManagementService;
+import com.social.service.UltimateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +19,8 @@ import java.util.Date;
 public class CaseManagementController {
     @Resource
     private CaseManagementService caseManagement;
+    @Autowired
+    private UltimateService ultimate;
 
     @RequestMapping("insert")
     @ResponseBody
@@ -36,9 +41,7 @@ public class CaseManagementController {
     @RequestMapping("selectById")
     @ResponseBody
     public String selectById(Integer id) {
-        System.out.println(id);
         CaseManagement caseManagement = this.caseManagement.selectByRegistrationOfCasesId(id);
-        System.out.println(caseManagement);
         return JSON.toJSONString(caseManagement);
     }
 }

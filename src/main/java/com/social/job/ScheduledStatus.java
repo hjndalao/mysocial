@@ -21,7 +21,7 @@ public class ScheduledStatus {
 
     //基于注解配置的定时任务
     //每天中午12点触发 0 0 12 * * ?
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0/50 * * * * ?")
     public void scheduled() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
         System.out.println("开始调度, 当前时间:" + simpleDateFormat.format(new Date()));
@@ -46,9 +46,21 @@ public class ScheduledStatus {
             ultimatess.setWarningTime(++warningTime);
             if (ultimatess.getApprovalStatus() == 1 & ultimatess.getTypeStatus() == 5 & warningTime <= 6) {
                 ultimate.updateByPrimaryKeySelective(ultimatess);
-            } else if (ultimatess.getApprovalStatus() == 1 & ultimatess.getTypeStatus() == 6 & warningTime <= 6){
+            } else if (ultimatess.getApprovalStatus() == 1 & ultimatess.getTypeStatus() == 6 & warningTime <= 6) {
                 ultimate.updateByPrimaryKeySelective(ultimatess);
-            }else {
+            } else if (ultimatess.getApprovalStatus() == 1 & ultimatess.getTypeStatus() == 7 & (warningTime <= 31 || warningTime <= 6)) {
+                Integer time = ultimatess.getWarningTime();
+                ultimatess.setWarningTime(++time);
+                if (time <= 31) {
+                    ultimate.updateByPrimaryKeySelective(ultimatess);
+                }
+            } else if (ultimatess.getApprovalStatus() == 1 & ultimatess.getTypeStatus() == 8 & warningTime <= 6) {
+                ultimate.updateByPrimaryKeySelective(ultimatess);
+            } else if (ultimatess.getApprovalStatus() == 1 & ultimatess.getTypeStatus() == 9 & (warningTime <= 11 || warningTime <= 6)) {
+                ultimate.updateByPrimaryKeySelective(ultimatess);
+            } else if (ultimatess.getApprovalStatus() == 1 & ultimatess.getTypeStatus() == 10 & warningTime <= 261) {
+                ultimate.updateByPrimaryKeySelective(ultimatess);
+            } else {
                 continue;
             }
         }

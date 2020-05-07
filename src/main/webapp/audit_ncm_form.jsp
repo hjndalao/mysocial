@@ -171,7 +171,7 @@
             })
         }
 
-        function guidamng(id) {
+        function guidang(id) {
             $.ajax({
                 url: "${pageContext.request.contextPath}/AuditNcmFormController/selectByRegistrationOfCasesId",
                 type: "get",
@@ -285,7 +285,7 @@
                         <c:forEach var="ds" items="${datas}">
                             <c:if test="${ds.registrationOfCasesId==d.id}">
                                 <c:if test="${ds.state==1}">
-                                    <button type="button" class="btn bg-olive btn-xs" onclick="guidamng(${d.id})">结案归档
+                                    <button type="button" class="btn bg-olive btn-xs" onclick="guidang(${d.id})">结案归档
                                     </button>
                                 </c:if>
                             </c:if>

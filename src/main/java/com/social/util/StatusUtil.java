@@ -9,11 +9,12 @@ public class StatusUtil {
     public static Map<String, Integer> status(Integer typeStatus, Integer approvalStatus) {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
         //类型状态
-        if (typeStatus == null) typeStatus = 1;
-        //审批状态
-        if (approvalStatus == null) approvalStatus = 4;
-        map.put("typeStatus", typeStatus);
-        map.put("approvalStatus", approvalStatus);
+        if (typeStatus != null) {
+            map.put("typeStatus", typeStatus);
+        }
+        if (approvalStatus != null) {
+            map.put("approvalStatus", approvalStatus);
+        }
         return map;
     }
 
@@ -35,6 +36,14 @@ public class StatusUtil {
             return "redirect:/audit_ncm_form.jsp";
         } else if (status == 8) {
             return "redirect:/case_management.jsp";
+        } else if (status == 9) {
+            return "redirect:/notification_case_management.jsp";
+        } else if (status == 10) {
+            return "redirect:/pending_bank_cases.jsp";
+        } else if (status == 11) {
+            return "redirect:/enforcement.jsp";
+        } else if (status == 12) {
+            return "redirect:/registrationOfCases01.jsp";
         } else {
             return "";
         }

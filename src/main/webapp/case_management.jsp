@@ -96,7 +96,9 @@
                         data: "id=" + id,
                         dataType: "json",
                         success: function (status) {
-                            $("#serviceTime").val(status.servicetime);
+                            if (status != null) {
+                                $("#serviceTime").val(status.serviceTime);
+                            }
                         }
                     })
                 }
@@ -106,7 +108,7 @@
         function query() {
             $.ajax({
                 url: "${path}/ultimate/selectByPage",
-                data: "page=${map.page}&typeStatus=7&approvalStatus=3&status=8",
+                data: "page=${map.page}&typeStatus=7&approvalStatus=1&status=8",
                 type: "get",
                 success: function () {
                     location.reload();
@@ -123,21 +125,43 @@
             }
             var data = {
                 "registrationOfCasesId": id,
-                "servicetime": serviceTime
+                "serviceTime": serviceTime
             }
             $.ajax({
                 url: "${path}/caseManagement/update",
                 data: data,
                 dataType: "json",
                 type: "get",
-                success: function (status) {
-                    console.log(status);
-                    query();
+                success: function () {
+                    $.ajax({
+                        url: "${path}/ultimate/update",
+                        data: "id=" + id + "&typeStatus="+8+"&approvalStatus="+1,
+                        dataType: "json",
+                        type: "get",
+                        success: function (status) {
+                            console.log(status);
+                            query();
+
+                        }
+                    })
                 }
             })
         }
 
-
+        function yanshi(id) {
+            if (confirm("确认延长时间?")) {
+                $.ajax({
+                    url: "${path}/ultimate/update",
+                    type: "post",
+                    data: "id=" + id + "&maxtime=" + 30,
+                    dataType: "text",
+                    success: function (status) {
+                        query();
+                        alert("已延长30个工作日");
+                    }
+                })
+            }
+        }
     </script>
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="shebao" ng-controller="caseManagementController"
@@ -220,14 +244,10 @@
                     </td>
                         <%--ng-if="pojo.registrationOfCases.warningTime<5"--%>
                     <td>
-                        <c:if test="${d.warningTime<5}"><span style="color: #00a157">已核定补缴本金，请出具补缴通知书</span></c:if>
-                        <c:if test="${d.warningTime>5}">
-                            <%--ng-if="true"--%>
-                            <span style="color:red;">已经超过五天，仍未出具补缴通知书</span>
-                        </c:if>
+                        <c:if test="${d.warningTime<d.maxtime||d.warningTime<5}"><span style="color: #00a157">已核定补缴本金，请出具补缴通知书</span></c:if>
                             <%--"pojo.registrationOfCases.warningTime>pojo.registrationOfCases.maxtime"--%>
-                        <c:if test="${d.warningTime>d.maxtime}">
-                            <span ng-if=style="color:red;">该案件已超时，请尽快处理！！</span>
+                        <c:if test="${d.warningTime>d.maxtime}"><%--ng-if=style="color:red;"--%>
+                            <span style="color:red;">已经超过期限，仍未出具补缴通知书，请尽快处理！！</span>
                         </c:if>
                     </td>
                     <td class="text-center"><%--ng-click="findOne(pojo.id)"--%>
@@ -235,8 +255,8 @@
                                 onclick="selectById(${d.id})" class="btn bg-olive btn-xs" data-toggle="modal"
                                 data-target="#editModal">出具补缴通知书
                         </button>
-                        <button ng-if="true" type="button"
-                                ng-click="yanshi(pojo.registrationOfCasesId)" class="btn bg-olive btn-xs">申请延长日期
+                            <%--ng-click="yanshi(pojo.registrationOfCasesId)"--%>
+                        <button ng-if="true" type="button" class="btn bg-olive btn-xs" onclick="yanshi(${d.id})">申请延长日期
                         </button>
                     </td>
                 </tr>
@@ -248,20 +268,20 @@
         <%--<tm-pagination conf="paginationConf"></tm-pagination>--%>
         <c:if test="${map.nums==null}">
             <c:if test="${map.page>1}">
-                <a href="${path}/ultimate/selectByPage?page=${map.page-1}&typeStatus=7&approvalStatus=3&status=8">上一页</a>
+                <a href="${path}/ultimate/selectByPage?page=${map.page-1}&typeStatus=7&approvalStatus=1&status=8">上一页</a>
             </c:if>
             第 ${map.page} 页&nbsp;&nbsp;&nbsp;共 ${map.num} 页
             <c:if test="${map.page<map.num}">
-                <a href="${path}/ultimate/selectByPage?page=${map.page+1}&typeStatus=7&approvalStatus=3&status=8">下一页</a>
+                <a href="${path}/ultimate/selectByPage?page=${map.page+1}&typeStatus=7&approvalStatus=1&status=8">下一页</a>
             </c:if>
         </c:if>
         <c:if test="${map.num==null && map.page==null}">
             <c:if test="${map.pages>1}">
-                <a href="${path}/ultimate/selectByLike?page=${map.pages-1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&typeStatus=7&approvalStatus=3&status=8">上一页</a>
+                <a href="${path}/ultimate/selectByLike?page=${map.pages-1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&typeStatus=7&approvalStatus=1&status=8">上一页</a>
             </c:if>
             第 ${map.pages} 页&nbsp;&nbsp;&nbsp;共 ${map.nums} 页
             <c:if test="${map.pages<map.nums}">
-                <a href="${path}/ultimate/selectByLike?page=${map.pages+1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&typeStatus=7&approvalStatus=3&status=8">下一页</a>
+                <a href="${path}/ultimate/selectByLike?page=${map.pages+1}<c:if test="${unitName!=null}">&unitName=${unitName}</c:if><c:if test="${organizationalCode!=null}">&organizationalCode=${organizationalCode}</c:if><c:if test="${nameOfRegistrant!=null}">&nameOfRegistrant=${nameOfRegistrant}</c:if>&typeStatus=7&approvalStatus=1&status=8">下一页</a>
             </c:if>
         </c:if>
         <c:if test="${map.counts==null}">

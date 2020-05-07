@@ -15,5 +15,5 @@ public class CaseManagement {
 
     private Integer status;
 
-    private String servicetime;
+    private String serviceTime;
 }

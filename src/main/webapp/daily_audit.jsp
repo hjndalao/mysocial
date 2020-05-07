@@ -326,12 +326,36 @@
                         }, 500);
                     }
                 });
-            }else {
+            } else {
                 window.setTimeout(function () {
                     alert("请选择上传文件");
                 }, 500);
             }
         }
+
+        //checkbox全选/全不选
+        $(document).ready(function () {
+            $("[name='selAll']").click(function () {
+                if ($(this).is(':checked')) {
+                    $("[name='select']").attr('checked', true);
+                } else {
+                    $("[name='select']").attr('checked', false);
+                }
+            })
+            $("[name='select']").click(function () {
+                var selAll = false;
+                $("[name='select']").each(function () {
+                    if (!$(this).is(':checked')) {
+                        selAll = true;
+                    }
+                })
+                if (selAll) {
+                    $("[name='selAll']").attr('checked', false);
+                } else {
+                    $("[name='selAll']").attr('checked', true);
+                }
+            })
+        })
     </script>
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="shebao" ng-controller="specialauditController">
@@ -394,7 +418,7 @@
                 <th class="sorting">姓名</th>
                 <th class="sorting">联系电话</th>
                 <th class="sorting">投诉内容</th>
-                <th class="sorting">操作</th>
+                <th class="sorting"><input type="checkbox" name="selAll">&nbsp;&nbsp;&nbsp;操作</th>
             </tr>
             </thead>
             <c:forEach items="${data}" var="ds">
@@ -416,6 +440,7 @@
                     <td>${ds.phone}</td>
                     <td>${ds.complaintContents}</td>
                     <td><%--ng-click="findOne(pojo.id)"--%>
+                        <input type="checkbox" name="select" value="${ds.id}">&nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn bg-olive btn-xs"
                                 onclick="selectById(${ds.id})"
                                 data-toggle="modal"

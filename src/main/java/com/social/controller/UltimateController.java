@@ -55,10 +55,10 @@ public class UltimateController {
         //存入分页后的数据
         session.setAttribute("data", registrationOfCases);
         if (status == 7) {
-            System.out.println("跳转");
             return "redirect:/AuditNcmFormController/selectAll";
-        }else {
-            System.out.println("没跳转");
+        } else if (status == 10) {
+            return "redirect:/PendingBankCases/selectAll";
+        } else {
             return StatusUtil.statusYe(status);
         }
     }
@@ -130,7 +130,6 @@ public class UltimateController {
     @ResponseBody
     public String update(Ultimate ultimate) {
         int status = ultimateService.updateByPrimaryKeySelective(ultimate);
-
         return JSON.toJSONString(status);
     }
 }

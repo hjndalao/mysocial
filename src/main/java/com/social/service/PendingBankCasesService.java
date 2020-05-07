@@ -1,10 +1,10 @@
-package com.social.dao;
+package com.social.service;
 
 import com.social.pojo.PendingBankCases;
 
 import java.util.List;
 
-public interface PendingBankCasesMapper {
+public interface PendingBankCasesService {
 
     int deleteByPrimaryKey(Integer id);
 
@@ -14,9 +14,9 @@ public interface PendingBankCasesMapper {
 
     PendingBankCases selectByPrimaryKey(Integer id);
 
-    int updateByRegistrationOfCasesId(PendingBankCases record);
-
     List<PendingBankCases> selectAll();
+
+    int updateByRegistrationOfCasesId(PendingBankCases record);
 
     int updateByPrimaryKeySelective(PendingBankCases record);
 

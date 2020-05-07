@@ -1,8 +1,8 @@
-package com.social.dao;
+package com.social.service;
 
 import com.social.pojo.NotificationCaseManagement;
 
-public interface NotificationCaseManagementMapper {
+public interface NotificationCaseManagementService {
 
     int deleteByPrimaryKey(Integer id);
 
